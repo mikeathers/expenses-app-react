@@ -1,7 +1,8 @@
-import React from "react"
-import { connect } from "react-redux"
+import React from "react";
+import { connect } from "react-redux";
 
-import ExpenseFormListItem from "./ExpenseFormListItem"
+import ExpenseFormListItem from "./ExpenseFormListItem";
+
 
 export const ExpenseFormList = (props) => (
   <div className="content-container">
@@ -21,5 +22,7 @@ export const ExpenseFormList = (props) => (
 const mapStateToProps = (state) => ({
   forms: state.expenseForms
 });
+
+
 
 export default connect(mapStateToProps)(ExpenseFormList);

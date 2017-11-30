@@ -23,6 +23,9 @@ export default (state = expenseFormReducerDefaultState, action) => {
 
     case "REMOVE_EXPENSE_FORM": 
       return state.filter(({ id }) => id !== action.id );
+
+    case "SET_EXPENSE_FORMS": 
+      return action.expenseForms;
     
     default: 
       return state;

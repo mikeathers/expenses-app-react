@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import moment from "moment";
 import uuid from "uuid";
 
-import { addExpenseForm } from "../actions/expenseForms";
+import { startAddExpenseForm } from "../actions/expenseForms";
 
 
 class AddExpenseForm extends React.Component {
@@ -22,16 +22,17 @@ class AddExpenseForm extends React.Component {
  };
 
  onAddForm = () => {
-
+  const now = moment();
   const expenseForm = {
     id: uuid(),
     name: this.state.formName,
-    createdAt: moment(),
-    totalCost: 0
+    createdAt: now.valueOf(),
+    totalCost: 0,
+    note: ""
   };
 
-   this.props.addExpenseForm(expenseForm)
- };
+   this.props.startAddExpenseForm(expenseForm)
+ }; 
 
   render() {
     return (
@@ -49,7 +50,7 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  addExpenseForm: (expenseForm) => dispatch(addExpenseForm(expenseForm))
+  startAddExpenseForm: (expenseForm) => dispatch(startAddExpenseForm(expenseForm))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddExpenseForm);

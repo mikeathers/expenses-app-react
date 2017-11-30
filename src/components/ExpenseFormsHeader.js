@@ -4,7 +4,7 @@ import ToggleDisplay from "react-toggle-display"
 
 import AddExpenseForm from "./AddExpenseForm";
 
-class ExpenseSummary extends React.Component {
+class ExpenseFormsSummary extends React.Component {
   constructor() {
     super();
 
@@ -34,4 +34,4 @@ class ExpenseSummary extends React.Component {
   };   
 } 
 
-export default ExpenseSummary;
+export default ExpenseFormsSummary;

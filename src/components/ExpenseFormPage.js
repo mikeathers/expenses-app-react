@@ -2,12 +2,14 @@ import React from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 
+import ExpenseFormSummary from "../components/ExpenseFormSummary";
+
 export const ExpenseFormPage = (props) => (
   <div className="page-header">
-    <div className="content-container">    
-     <h2>{props.expenseForm.name}</h2>
-     <p>Total Cost: £{props.expenseForm.totalCost}</p>
-     <Link className="button" to="/addexpense">Add new expense </Link>
+    <div className="content-container"> 
+      <ExpenseFormSummary name={props.expenseForm.name} totalCost={props.expenseForm.totalCost} />
+      <Link className="button" to={`/addexpense/${props.expenseForm.id}`}>Add new expense </Link>
+      <button className="button button--delete">Delete this form</button>   
     </div>
   </div>
 );

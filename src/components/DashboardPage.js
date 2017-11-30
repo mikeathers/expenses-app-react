@@ -1,10 +1,10 @@
 import React from 'react';
-import ExpenseSummary from "./ExpenseSummary";
+import ExpenseFormsHeader from "./ExpenseFormsHeader";
 import ExpenseFormsList from "./ExpenseFormsList";
 
 const DashboardPage = () => (
   <div>
-    <ExpenseSummary />
+    <ExpenseFormsHeader />
     <ExpenseFormsList />
   </div>
 );
