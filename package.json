@@ -1,5 +1,5 @@
 {
-  "name": "boilerplate-react-app",
+  "name": "spencer.co",
   "version": "1.0.0",
   "main": "index.js",
   "author": "Andrew Mead",
@@ -37,6 +37,7 @@
     "react-modal": "2.2.2",
     "react-redux": "5.0.5",
     "react-router-dom": "4.1.2",
+    "react-toggle-display": "^2.2.0",
     "redux": "3.7.2",
     "redux-mock-store": "1.2.3",
     "redux-thunk": "2.2.0",
@@ -52,6 +53,7 @@
     "enzyme": "2.9.1",
     "enzyme-to-json": "1.5.1",
     "jest": "20.0.4",
+    "jest-cli": "^21.2.1",
     "react-test-renderer": "15.6.1",
     "webpack-dev-server": "2.5.1"
   }

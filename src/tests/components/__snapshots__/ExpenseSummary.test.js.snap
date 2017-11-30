@@ -1,0 +1,29 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should render ExpenseSummary correctly 1`] = `
+<div
+  className="page-header"
+>
+  <div
+    className="content-container"
+  >
+    <h1
+      className="page-header__title"
+    >
+      Expense Forms
+    </h1>
+    <button
+      className="button"
+      onClick={[Function]}
+    >
+      Add Expense Form
+    </button>
+    <ToggleDisplay
+      show={false}
+      tag="span"
+    >
+      <Connect(AddExpenseForm) />
+    </ToggleDisplay>
+  </div>
+</div>
+`;

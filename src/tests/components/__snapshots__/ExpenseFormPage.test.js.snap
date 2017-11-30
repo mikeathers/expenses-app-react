@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should render ExpenseFormPage correctly 1`] = `
+<div
+  className="page-header"
+>
+  <div
+    className="content-container"
+  >
+    <h2 />
+    <p>
+      Total Cost: £
+    </p>
+    <Link
+      className="button"
+      replace={false}
+      to="/addexpense"
+    >
+      Add new expense 
+    </Link>
+  </div>
+</div>
+`;
