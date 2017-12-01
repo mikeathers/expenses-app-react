@@ -3,7 +3,7 @@ import React from "react";
 
 const ExpenseFormSummary = (props) => (
   <div>
-    <h2>{props.name}</h2>
+    <h1>{props.name}</h1>
     <p>Total Cost: £{props.totalCost}</p>    
   </div>
 );

@@ -4,6 +4,11 @@
   font-size: $font-size-large;
   font-weight: 300;
   padding: $s-size;
+  margin-right: $m-size;
+
+  &--mileage {
+    margin-left: $s-size;
+  }
 }
 
 .select {

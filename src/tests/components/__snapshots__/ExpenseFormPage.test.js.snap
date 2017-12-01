@@ -7,17 +7,19 @@ exports[`should render ExpenseFormPage correctly 1`] = `
   <div
     className="content-container"
   >
-    <h2 />
-    <p>
-      Total Cost: £
-    </p>
+    <ExpenseFormSummary />
     <Link
       className="button"
       replace={false}
-      to="/addexpense"
+      to="/addexpense/undefined"
     >
       Add new expense 
     </Link>
+    <button
+      className="button button--delete"
+    >
+      Delete this form
+    </button>
   </div>
 </div>
 `;
