@@ -2,9 +2,9 @@ import React from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 
-import ExpenseFormSummary from "./ExpenseFormSummary";
-import ExpenseForm from "./ExpenseForm";
-import { startAddExpense } from "../actions/expenses";
+import ExpenseFormSummary from "../ExpenseForms/ExpenseFormSummary";
+import ExpenseForm from "../ExpenseForms/ExpenseForm";
+import { startAddExpense } from "../../actions/expenses";
 
 class AddExpensePage extends React.Component {
 
@@ -26,6 +26,7 @@ class AddExpensePage extends React.Component {
           </div>
         </div>
         <div className="content-container">
+          <h2>New Expense</h2>
           <ExpenseForm onSubmit={this.onSubmit} />          
         </div>
       </div>

@@ -5,12 +5,12 @@ class OdometerForm extends React.Component {
     super();
 
     this.state = {
-      origin: "",
-      destination: "",
-      odometerStart: "",
-      odometerEnd: "",
-      totalMiles: "",
-      totalCost: ""
+      origin: props.onPassedInData ? props.onPassedInData.origin : "",
+      destination: props.onPassedInData ? props.onPassedInData.destination : "",
+      odometerStart: props.onPassedInData ? props.onPassedInData.odometerStart : "",
+      odometerEnd: props.onPassedInData ? props.onPassedInData.odometerEnd : "",
+      totalMiles: props.onPassedInData ? props.onPassedInData.totalMiles : "",
+      totalCost: props.onPassedInData ? props.onPassedInData.totalCost : "",  
     };
   }
 

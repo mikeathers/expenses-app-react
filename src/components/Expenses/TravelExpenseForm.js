@@ -2,16 +2,16 @@ import React from "react";
 import ReactDOM from "react-dom"
 import ToggleDisplay from "react-toggle-display";
 
-import OdometerForm from "./OdometerForm";
-import GoogleMapsForm from "./GoogleMapsForm";
+import OdometerForm from "../Expenses/OdometerForm";
+import GoogleMapsForm from "../Expenses/GoogleMapsForm";
 
 class TravelExpenseForm extends React.Component {
-  constructor() {
+  constructor(props) {
     super();
 
     this.state = ({
       odometerChecked: true,
-      googleMapsChecked: false      
+      googleMapsChecked: false,
     });
   };
 
@@ -25,6 +25,16 @@ class TravelExpenseForm extends React.Component {
       totalCost: expenseData.totalCost
     });
   };
+
+  onPassedInData = () => ({
+    createdAt: this.state.createdAt,
+    origin: this.state.origin,
+    destination: this.state.destination,
+    odometerStart: this.state.odometerStart,
+    odometerEnd: this.state.odometerEnd,
+    totalMiles: this.state.totalMiles,
+    totalCost: this.state.totalCost,
+  });
 
   onFormatChange = (e) => {
     if (e.target.value === "odometer") {

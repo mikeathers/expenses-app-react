@@ -1,6 +1,6 @@
 import React from 'react';
-import ExpenseFormsHeader from "./ExpenseFormsHeader";
-import ExpenseFormsList from "./ExpenseFormsList";
+import ExpenseFormsHeader from "./ExpenseForms/ExpenseFormsHeader";
+import ExpenseFormsList from "./ExpenseForms/ExpenseFormsList";
 
 const DashboardPage = () => (
   <div>

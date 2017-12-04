@@ -3,22 +3,22 @@ import ToggleDisplay from "react-toggle-display";
 import { SingleDatePicker } from "react-dates";
 import moment from "moment";
 
-import TravelExpenseForm from "./TravelExpenseForm";
-import OtherExpenseForm from "./OtherExpenseForm";
+import TravelExpenseForm from "../Expenses/TravelExpenseForm";
+import OtherExpenseForm from "../Expenses/OtherExpenseForm";
 
 class ExpenseForm extends React.Component {
-  constructor() {
+  constructor(props) {
     super();
     this.state = ({
       travelSelected: true,
       otherSelected: false,
-      createdAt: moment(),
-      origin: "",
-      destination: "",
-      odometerStart: 0,
-      odometerEnd: 0,
-      totalMiles: 0,
-      totalCost: 0,
+      createdAt: props.expense ? props.expense.createdAt : moment(),
+      origin: props.expense ? props.expense.origin : "",
+      destination: props.expense ? props.destination : "",
+      odometerStart: props.expense ? props.odometerStart : 0,
+      odometerEnd: props.expense ? props.odometerEnd : 0,
+      totalMiles: props.expense ? props.expense.totalMiles : 0,
+      totalCost: props.expense ? props.expense.totalCost : 0,
       calendarFocused: false,
     });
   }
@@ -35,6 +35,16 @@ class ExpenseForm extends React.Component {
       });        
     }
   };
+
+  onPassedInData = () => ({
+    createdAt: props.expense ? props.expense.createdAt : moment(),
+    origin: props.expense ? props.expense.origin : "",
+    destination: props.expense ? props.destination : "",
+    odometerStart: props.expense ? props.odometerStart : 0,
+    odometerEnd: props.expense ? props.odometerEnd : 0,
+    totalMiles: props.expense ? props.expense.totalMiles : 0,
+    totalCost: props.expense ? props.expense.totalCost : 0,
+  });
 
   // Doesnt allow the date to be deleted. Only updates the state if there is a value in the date picker. 
   // If the state doesnt get updated the value of the datepicker wont change meaning it cant be deleted.
@@ -78,7 +88,7 @@ class ExpenseForm extends React.Component {
     return (
       <form className="form" onSubmit={this.onSubmit}>
 
-        <h2>New Expense</h2>
+        
         <div className="input-group">
         <select onChange={this.onExpenseTypeChange} className="select">
         <option value="travel">Travel</option>
@@ -100,7 +110,7 @@ class ExpenseForm extends React.Component {
             
           </div>
           <ToggleDisplay show={this.state.travelSelected}>
-            <TravelExpenseForm onHandleData={this.onHandleData} />
+            <TravelExpenseForm onPassedInData={this.onPassedInData} onHandleData={this.onHandleData} />
           </ToggleDisplay>
 
           <ToggleDisplay show={this.state.otherSelected}>

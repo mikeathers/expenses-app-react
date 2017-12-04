@@ -2,9 +2,9 @@ import React from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 
-import ExpenseFormSummary from "./ExpenseFormSummary";
-import ExpenseList from "./ExpensesList";
-import { startSetExpenses } from "../actions/expenses";
+import ExpenseFormSummary from "../ExpenseForms/ExpenseFormSummary";
+import ExpenseList from "../Expenses/ExpensesList";
+import { startSetExpenses } from "../../actions/expenses";
 
 export class ExpenseFormPage extends React.Component {
   onLoadExpenses = () => {

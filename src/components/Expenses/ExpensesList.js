@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import ExpenseListItem from "./ExpenseListItem";
+import ExpenseListItem from "../Expenses/ExpenseListItem";
 
 export const ExpensesList = (props) => (
   <div className="content-container">

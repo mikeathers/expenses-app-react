@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 
-import ExpenseFormListItem from "./ExpenseFormListItem";
+import ExpenseFormListItem from "../ExpenseForms/ExpenseFormListItem";
 
 
 export const ExpenseFormList = (props) => (

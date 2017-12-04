@@ -2,7 +2,7 @@ import React from "react"
 import { Link } from "react-router-dom"
 import ToggleDisplay from "react-toggle-display"
 
-import AddExpenseForm from "./AddExpenseForm";
+import AddExpenseForm from "../ExpenseForms/AddExpenseForm";
 
 class ExpenseFormsSummary extends React.Component {
   constructor() {
