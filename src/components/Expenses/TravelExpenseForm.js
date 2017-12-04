@@ -1,17 +1,24 @@
 import React from "react";
 import ReactDOM from "react-dom"
 import ToggleDisplay from "react-toggle-display";
+import { connect } from "react-redux";
 
 import OdometerForm from "../Expenses/OdometerForm";
 import GoogleMapsForm from "../Expenses/GoogleMapsForm";
 
-class TravelExpenseForm extends React.Component {
+export class TravelExpenseForm extends React.Component {
   constructor(props) {
     super();
 
     this.state = ({
       odometerChecked: true,
       googleMapsChecked: false,
+      origin: props.origin ? props.origin : "",
+      destination: props.destination ? props.destination : "",
+      odometerStart: props.odometerStart ? props.odometerStart : 0,
+      odometerEnd: props.odometerEnd ? props.odometerEnd : 0,
+      totalMiles: props.totalMiles ? props.totalMiles : 0,
+      totalCost: props.totalCost ? props.totalCost : 0,
     });
   };
 
@@ -25,16 +32,6 @@ class TravelExpenseForm extends React.Component {
       totalCost: expenseData.totalCost
     });
   };
-
-  onPassedInData = () => ({
-    createdAt: this.state.createdAt,
-    origin: this.state.origin,
-    destination: this.state.destination,
-    odometerStart: this.state.odometerStart,
-    odometerEnd: this.state.odometerEnd,
-    totalMiles: this.state.totalMiles,
-    totalCost: this.state.totalCost,
-  });
 
   onFormatChange = (e) => {
     if (e.target.value === "odometer") {
@@ -72,7 +69,7 @@ class TravelExpenseForm extends React.Component {
         </div>
 
         <ToggleDisplay show={this.state.odometerChecked}>
-          <OdometerForm pricePerMile={this.pricePerMile} onHandleData={this.onHandleData}/>
+          <OdometerForm pricePerMile={this.pricePerMile} {...this.state} onHandleData={this.onHandleData}/>
         </ToggleDisplay>
         <ToggleDisplay show={this.state.googleMapsChecked}>
           <GoogleMapsForm />
@@ -83,4 +80,7 @@ class TravelExpenseForm extends React.Component {
   };
 };
 
-export default TravelExpenseForm;
+const mapStateToProps = (state, props) => ({
+  //expense: state.expenses.find((expense) => expense.id === props.match.params.id)
+});
+export default connect(mapStateToProps)(TravelExpenseForm);

@@ -12,11 +12,12 @@ class ExpenseForm extends React.Component {
     this.state = ({
       travelSelected: true,
       otherSelected: false,
-      createdAt: props.expense ? props.expense.createdAt : moment(),
+      description: props.expense ? props.expense.description : "Travel",
+      createdAt: props.expense ? moment(props.expense.createdAt) : moment(),
       origin: props.expense ? props.expense.origin : "",
-      destination: props.expense ? props.destination : "",
-      odometerStart: props.expense ? props.odometerStart : 0,
-      odometerEnd: props.expense ? props.odometerEnd : 0,
+      destination: props.expense ? props.expense.destination : "",
+      odometerStart: props.expense ? props.expense.odometerStart : 0,
+      odometerEnd: props.expense ? props.expense.odometerEnd : 0,
       totalMiles: props.expense ? props.expense.totalMiles : 0,
       totalCost: props.expense ? props.expense.totalCost : 0,
       calendarFocused: false,
@@ -26,25 +27,17 @@ class ExpenseForm extends React.Component {
     if (e.target.value === "travel") {
       this.setState({
         travelSelected: !this.state.travelSelected,
-        otherSelected: false
+        otherSelected: false,
+        description: "Travel"
       })
     } else if (e.target.value === "other") {
       this.setState({
         travelSelected: false,
-        otherSelected: !this.state.otherSelected
+        otherSelected: !this.state.otherSelected,
+        description: "Other"
       });        
     }
   };
-
-  onPassedInData = () => ({
-    createdAt: props.expense ? props.expense.createdAt : moment(),
-    origin: props.expense ? props.expense.origin : "",
-    destination: props.expense ? props.destination : "",
-    odometerStart: props.expense ? props.odometerStart : 0,
-    odometerEnd: props.expense ? props.odometerEnd : 0,
-    totalMiles: props.expense ? props.expense.totalMiles : 0,
-    totalCost: props.expense ? props.expense.totalCost : 0,
-  });
 
   // Doesnt allow the date to be deleted. Only updates the state if there is a value in the date picker. 
   // If the state doesnt get updated the value of the datepicker wont change meaning it cant be deleted.
@@ -62,8 +55,8 @@ class ExpenseForm extends React.Component {
   onSubmit = (e) => {
     e.preventDefault();
     this.props.onSubmit({
-      date: this.state.createdAt.valueOf(),
-      description: "Travel",
+      createdAt: this.state.createdAt.valueOf(),
+      description: this.state.description,
       origin: this.state.origin,
       destination: this.state.destination,
       odometerStart: this.state.odometerStart,
@@ -90,36 +83,34 @@ class ExpenseForm extends React.Component {
 
         
         <div className="input-group">
-        <select onChange={this.onExpenseTypeChange} className="select">
-        <option value="travel">Travel</option>
-        <option value="other">Other</option>          
-      </select>
-        <SingleDatePicker
-        date={this.state.createdAt}
-        onDateChange={this.onDateChange}
-        focused={this.state.calendarFocused}
-        onFocusChange={this.onFocusChange}
-        numberOfMonths={1}
-        isOutsideRange={() => false}   
-        //displayFormat={() => moment().format("DD/MM/YYYY")}
-      />
+          <select onChange={this.onExpenseTypeChange} className="select">
+            <option value="travel">Travel</option>
+            <option value="other">Other</option>          
+            </select>
+          <SingleDatePicker
+          date={this.state.createdAt}
+          onDateChange={this.onDateChange}
+          focused={this.state.calendarFocused}
+          onFocusChange={this.onFocusChange}
+          numberOfMonths={1}
+          isOutsideRange={() => false}   
+          //displayFormat={() => moment().format("DD/MM/YYYY")}
+          />
         </div>
           
 
-          <div className="input-group" >
-            
-          </div>
-          <ToggleDisplay show={this.state.travelSelected}>
-            <TravelExpenseForm onPassedInData={this.onPassedInData} onHandleData={this.onHandleData} />
-          </ToggleDisplay>
+        
+        <ToggleDisplay show={this.state.travelSelected}>
+          <TravelExpenseForm {...this.state} onHandleData={this.onHandleData} />
+        </ToggleDisplay>
 
-          <ToggleDisplay show={this.state.otherSelected}>
-            <OtherExpenseForm />
-          </ToggleDisplay>
+        <ToggleDisplay show={this.state.otherSelected}>
+          <OtherExpenseForm />
+        </ToggleDisplay>
 
-          <div className="input-group">
-            <button className="button">Save Expense</button>
-          </div>
+        <div className="input-group">
+          <button className="button">Save Expense</button>
+        </div>
           
 
     </form>

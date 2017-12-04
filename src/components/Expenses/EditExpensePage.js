@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 
 import ExpenseFormSummary from "../ExpenseForms/ExpenseFormSummary";
-import ExpenseForm from "../ExpenseForms/ExpenseForm";
+import ExpenseForm from "../Expenses/ExpenseForm";
 
 class EditExpensePage extends React.Component {
   constructor() {
