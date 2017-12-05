@@ -4,16 +4,26 @@ import { Link } from "react-router-dom";
 
 import ExpenseFormSummary from "../ExpenseForms/ExpenseFormSummary";
 import ExpenseForm from "../Expenses/ExpenseForm";
-import { startAddExpense } from "../../actions/expenses";
-
+import { startAddExpense, startEditExpense } from "../../actions/expenses";
+import { startEditExpenseForm } from "../../actions/expenseForms";
+ 
 class AddExpensePage extends React.Component {
 
   onSubmit = (expenseData) => {
+    const expenseForm = this.props.expenseForm;
+    const expenseFormId = expenseForm.id;    
     const expense = {
-      expenseFormId: this.props.match.params.id,
+      expenseFormId,
       ...expenseData
     }
+    const totalCost = expenseForm.totalCost += expense.totalCost;
+    const newExpenseForm = {
+      ...expenseForm,
+      totalCost
+    };
+    
     this.props.startAddExpense(expense);
+    this.props.startEditExpenseForm(expenseFormId, newExpenseForm);
     this.props.history.push(`/expenseForm/${this.props.match.params.id}`);
   }
   render() {
@@ -36,7 +46,8 @@ class AddExpensePage extends React.Component {
 
 
 const mapDispatchToProps = (dispatch) => ({
-  startAddExpense: (expense) => dispatch(startAddExpense(expense))
+  startAddExpense: (expense) => dispatch(startAddExpense(expense)),
+  startEditExpenseForm: (id, updates) => dispatch(startEditExpenseForm(id, updates))
 });
 
 const mapStateToProps = (state, props) => ({

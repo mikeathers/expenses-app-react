@@ -26,6 +26,17 @@ export const editExpense = (id, updates) => ({
   updates
 });
 
+export const startEditExpense = (id, updates) => {
+  return (dispatch, getState) => {
+    const uid = getState().auth.uid;
+    const expense = getState().expenses.find((expense) => id === id);
+    const expenseFormId = expense.expenseFormId;
+    return database.ref(`users/${uid}/expenseForms/${expense.expenseFormId}/expenses/${id}`).update(updates).then(() => {
+      dispatch(editExpense(id, updates));
+    });
+  }
+}
+
 // REMOVE_EXPENSE
 export const removeExpense = ({id} = {}) => ({
   type: "REMOVE_EXPENSE",

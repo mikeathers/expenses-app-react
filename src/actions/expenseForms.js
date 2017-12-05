@@ -31,11 +31,29 @@ export const editExpenseForm = (id, updates) => {
   };
 };
 
+export const startEditExpenseForm = (id, updates) => {
+  return (dispatch, getState) => {
+    const uid = getState().auth.uid;
+    return database.ref(`users/${uid}/expenseForms/${id}`).update(updates).then((ref) => {
+      dispatch(editExpenseForm(id, updates))
+    });
+  };
+};
+
 // REMOVE_EXPENSE_FORM
-export const removeExpenseForm = ({id} = {}) => {
+export const removeExpenseForm = ({ id } = {}) => {
   return {
     type: "REMOVE_EXPENSE_FORM",
     id
+  };
+};
+
+export const startRemoveExpenseForm = ({ id } = {}) => {
+  return (dispatch, getState) => {
+    const uid = getState().auth.uid;
+    return database.ref(`users/${uid}/expenseforms/${id}`).remove().then(() => {
+      dispatch(removeExpenseForm({ id }))
+    });
   };
 };
 

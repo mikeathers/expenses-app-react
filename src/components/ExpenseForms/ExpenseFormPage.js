@@ -5,11 +5,16 @@ import { Link } from "react-router-dom";
 import ExpenseFormSummary from "../ExpenseForms/ExpenseFormSummary";
 import ExpenseList from "../Expenses/ExpensesList";
 import { startSetExpenses } from "../../actions/expenses";
+import { startRemoveExpenseForm } from "../../actions/expenseForms";
 
 export class ExpenseFormPage extends React.Component {
   onLoadExpenses = () => {
     const expenseFormId = this.props.match.params.id;
     this.props.startSetExpenses(expenseFormId);
+  }
+  onRemoveExpense = () => {
+    this.props.startRemoveExpenseForm({ id: this.props.expenseForm.id });
+    this.props.history.push("/");
   }
   render() {
     {this.onLoadExpenses()};
@@ -19,7 +24,7 @@ export class ExpenseFormPage extends React.Component {
         <div className="content-container"> 
           <ExpenseFormSummary name={this.props.expenseForm.name} totalCost={this.props.expenseForm.totalCost} />
           <Link className="button" to={`/addexpense/${this.props.expenseForm.id}`}>Add new expense </Link>
-          <button className="button button--delete">Delete this form</button>   
+          <button onClick={this.onRemoveExpense} className="button button--delete">Delete this form</button>   
         </div>
       </div>
       <div className="content-container">
@@ -31,7 +36,8 @@ export class ExpenseFormPage extends React.Component {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  startSetExpenses: (expenseFormId) => (dispatch(startSetExpenses(expenseFormId)))
+  startSetExpenses: (expenseFormId) => (dispatch(startSetExpenses(expenseFormId))),
+  startRemoveExpenseForm: ({id}) => (dispatch(startRemoveExpenseForm({id})))
 });
 
 const mapStateToProps = (state, props) => ({

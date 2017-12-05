@@ -62,55 +62,64 @@ class OdometerForm extends React.Component {
       <div>
         <h2>Odometer</h2>
         <div className="input-group">
-          <div>
+          <label>Origin:
             <input
               type="text"
               id="origin"
-              placeholder="Origin"
+              placeholder="Enter Origin"
               className="text-input"
               onChange={this.onChange}
               value={this.state.origin}
             />
-
-          </div>
+          </label>
+          <label>Destination:
           <input
             type="text"
             id="destination"
-            placeholder="Destination"
+            placeholder="Enter Destination"
             className="text-input"
             onChange={this.onChange}
             value={this.state.destination}
           />
+          </label>
         </div>
+       
         <div className="input-group">
+        <label>Odometer Start:
           <input
             type="number"
             id="odometerStart"
-            placeholder="Odometer start"
+            placeholder="Odometer Start"
             className="text-input"
             onChange={this.onChange}
             value={this.state.odometerStart}
           />
+          </label>
+          <label>Odometer End:
           <input
             type="number"
             id="odometerEnd"
-            placeholder="Odometer end"
+            placeholder="Odometer End"
             className="text-input"
             onBlur={this.onBlur}
             onChange={this.onChange}
             value={this.state.odometerEnd}
           />
+          </label>
         </div>
         <div className="input-group">
+        <label>Total Miles:
           <input
             type="number"
             id="totalMiles"
-            placeholder="Total miles"
+            placeholder="Total Miles"
             className="text-input"
             readOnly="true"
             onChange={this.onChange}
             value={this.state.totalMiles}
           />
+          </label>
+          <label>Total Cost:
           <input
             type="number"
             id="totalCost"
@@ -121,6 +130,7 @@ class OdometerForm extends React.Component {
             onChange={this.onChange}
             value={this.state.totalCost}
           />
+          </label>
         </div>
       </div>
     );
