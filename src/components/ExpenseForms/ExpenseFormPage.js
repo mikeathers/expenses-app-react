@@ -3,33 +3,58 @@ import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 
 import ExpenseFormSummary from "../ExpenseForms/ExpenseFormSummary";
-import ExpenseList from "../Expenses/ExpensesList";
+import ExpensesList from "../Expenses/ExpensesList";
+import ConfirmModal from "../ConfirmModel";
 import { startSetExpenses } from "../../actions/expenses";
 import { startRemoveExpenseForm } from "../../actions/expenseForms";
 
 export class ExpenseFormPage extends React.Component {
+  constructor() {
+    super();
+
+    this.state = {
+      modalIsOpen: false
+    };
+  }
   onLoadExpenses = () => {
     const expenseFormId = this.props.match.params.id;
     this.props.startSetExpenses(expenseFormId);
   }
-  onRemoveExpense = () => {
+  onRemove = () => {
     this.props.startRemoveExpenseForm({ id: this.props.expenseForm.id });
     this.props.history.push("/");
   }
+  onCloseModal = () => {
+    this.setState({ modalIsOpen: false });
+  };
+  onConfirmRemove = () => {
+    this.setState({ modalIsOpen: true });
+  };
+
+  componentDidMount() {
+    this.onLoadExpenses();
+  }
+
   render() {
-    {this.onLoadExpenses()};
     return (
       <div>
         <div className="page-header">
         <div className="content-container"> 
           <ExpenseFormSummary name={this.props.expenseForm.name} totalCost={this.props.expenseForm.totalCost} />
           <Link className="button" to={`/addexpense/${this.props.expenseForm.id}`}>Add new expense </Link>
-          <button onClick={this.onRemoveExpense} className="button button--delete">Delete this form</button>   
+          <button onClick={this.onConfirmRemove} className="button button--remove">Delete this form</button>   
         </div>
       </div>
       <div className="content-container">
-        <ExpenseList />
+          <ExpensesList />       
       </div>
+      <ConfirmModal
+        onCloseModal={this.onCloseModal}
+        modalIsOpen={this.state.modalIsOpen}
+        onRemove={this.onRemove}
+        type="Expense Form"
+      >
+      </ConfirmModal>
     </div>
     );
   };

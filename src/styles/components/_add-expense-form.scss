@@ -1,0 +1,16 @@
+.add-expense-form {
+  
+  &__input {
+    @extend .text-input;
+    margin-right: 0;
+    display: inline-block;
+  }
+
+  &__button {
+    @extend .button;
+    height: 50px;
+    margin-top: $s-size;
+  }
+}
+
+

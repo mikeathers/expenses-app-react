@@ -43,6 +43,17 @@ export const removeExpense = ({id} = {}) => ({
   id
 });
 
+export const startRemoveExpense = ({id, expenseFormId } = {}) => {
+  return (dispatch, getState) => {
+    const uid = getState().auth.uid;
+    return database.ref(`users/${uid}/expenseForms/${expenseFormId}/expenses/${id}`).remove().then(() => {
+      dispatch(removeExpense({ id }));
+    }).catch((e) => console.log("Error removing the expense from firebse", e.message));
+  };
+};
+
+
+
 // SET_EXPENSE
 export const setExpenses = (expenses) => ({
   type: "SET_EXPENSES",

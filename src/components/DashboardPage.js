@@ -1,11 +1,11 @@
 import React from 'react';
-import ExpenseFormsHeader from "./ExpenseForms/ExpenseFormsHeader";
-import ExpenseFormsList from "./ExpenseForms/ExpenseFormsList";
+import ExpenseFormHeader from "./ExpenseForms/ExpenseFormHeader";
+import ExpenseFormList from "./ExpenseForms/ExpenseFormList";
 
 const DashboardPage = () => (
   <div>
-    <ExpenseFormsHeader />
-    <ExpenseFormsList />
+    <ExpenseFormHeader />
+    <ExpenseFormList />
   </div>
 );
 

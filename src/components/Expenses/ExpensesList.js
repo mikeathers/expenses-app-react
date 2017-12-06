@@ -12,7 +12,7 @@ export const ExpensesList = (props) => (
     <div className="list-body">
       {props.expenses.length === 0 ? (
         <div className="list-item list-item--message">
-          <span>No expense forms</span>
+          <span>No expenses</span>
         </div>
       ) : (
           props.expenses.map((expense) => {

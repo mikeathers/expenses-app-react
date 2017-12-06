@@ -32,12 +32,11 @@ class AddExpensePage extends React.Component {
         <div className="page-header">
           <div className="content-container">
             <ExpenseFormSummary name={this.props.expenseForm.name} totalCost={this.props.expenseForm.totalCost}/>
-            <Link className="button" to={`/expenseForm/${this.props.expenseForm.id}`}>Back</Link>
           </div>
         </div>
         <div className="content-container">
           <h2>New Expense</h2>
-          <ExpenseForm onSubmit={this.onSubmit} />          
+          <ExpenseForm editExpense={false} onSubmit={this.onSubmit} />          
         </div>
       </div>
     );

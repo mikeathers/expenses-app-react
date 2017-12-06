@@ -17,9 +17,13 @@
     background: #888;
   }
 
-  &--delete {
+  &--remove {
     background: #7D7D7D;
     margin-left: $s-size;
+  }
+
+  &--add-form {
+    margin-top: $s-size;
   }
 }
 

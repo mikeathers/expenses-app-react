@@ -51,9 +51,9 @@ export const removeExpenseForm = ({ id } = {}) => {
 export const startRemoveExpenseForm = ({ id } = {}) => {
   return (dispatch, getState) => {
     const uid = getState().auth.uid;
-    return database.ref(`users/${uid}/expenseforms/${id}`).remove().then(() => {
+    return database.ref(`users/${uid}/expenseForms/${id}`).remove().then(() => {
       dispatch(removeExpenseForm({ id }))
-    });
+    }).catch((e) => console.log("Remove Failed", e.message));
   };
 };
 

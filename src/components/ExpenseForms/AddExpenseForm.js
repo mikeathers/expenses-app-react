@@ -7,7 +7,7 @@ import { startAddExpenseForm } from "../../actions/expenseForms";
 
 
 class AddExpenseForm extends React.Component {
-  constructor() {
+  constructor(props) {
     super();
 
     this.state ={ 
@@ -21,7 +21,8 @@ class AddExpenseForm extends React.Component {
   });  
  };
 
- onAddForm = () => {
+ onSubmit = (e) => {
+   e.preventDefault();
   const now = moment();
   const expenseForm = {
     id: uuid(),
@@ -31,15 +32,22 @@ class AddExpenseForm extends React.Component {
     note: ""
   };
 
-   this.props.startAddExpenseForm(expenseForm)
+   this.props.startAddExpenseForm(expenseForm);
+   this.setState({ formName: "" })
  }; 
 
   render() {
     return (
-      <div>      
-        <input onChange={this.onTextChange} type="text" placeholder="Expense form name" />
-        <button onClick={this.onAddForm}>Add</button>
-      </div>
+      <form onSubmit={this.onSubmit} className="add-expense-form">      
+        <input 
+          className="add-expense-form__input"
+          onChange={this.onTextChange} 
+          value={this.state.formName}
+          type="text" 
+          placeholder="Expense form name"
+        />       
+        <button className="add-expense-form__button">Add</button>
+      </form>
     );
   } 
   

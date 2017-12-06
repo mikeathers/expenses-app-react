@@ -2,16 +2,21 @@ import React from "react";
 import ToggleDisplay from "react-toggle-display";
 import { SingleDatePicker } from "react-dates";
 import moment from "moment";
+import { connect } from "react-redux";
 
 import TravelExpenseForm from "../Expenses/TravelExpenseForm";
 import OtherExpenseForm from "../Expenses/OtherExpenseForm";
+import ConfirmModal from "../ConfirmModel";
+import { startRemoveExpense } from "../../actions/expenses";
 
-class ExpenseForm extends React.Component {
+export class ExpenseForm extends React.Component {
   constructor(props) {
     super();
     this.state = ({
       travelSelected: true,
       otherSelected: false,
+      id: props.expense ? props.expense.id : "",
+      expenseFormId: props.expense ? props.expense.expenseFormId : "",
       description: props.expense ? props.expense.description : "Travel",
       createdAt: props.expense ? moment(props.expense.createdAt) : moment(),
       origin: props.expense ? props.expense.origin : "",
@@ -21,8 +26,10 @@ class ExpenseForm extends React.Component {
       totalMiles: props.expense ? props.expense.totalMiles : 0,
       totalCost: props.expense ? props.expense.totalCost : 0,
       calendarFocused: false,
+      editExpense: props.editExpense ? true : false,
+      modalIsOpen: false
     });
-  }
+  };
   onExpenseTypeChange = (e) => {
     if (e.target.value === "travel") {
       this.setState({
@@ -77,6 +84,16 @@ class ExpenseForm extends React.Component {
     });
   };
 
+
+
+  onConfirmRemove = (e) => {
+    e.preventDefault();
+    this.props.onConfirmRemove({
+      modalIsOpen: true
+    });
+  };
+  
+
   render() {
     return (
       <form className="form" onSubmit={this.onSubmit}>
@@ -97,9 +114,7 @@ class ExpenseForm extends React.Component {
           //displayFormat={() => moment().format("DD/MM/YYYY")}
           />
         </div>
-          
 
-        
         <ToggleDisplay show={this.state.travelSelected}>
           <TravelExpenseForm {...this.state} onHandleData={this.onHandleData} />
         </ToggleDisplay>
@@ -109,13 +124,18 @@ class ExpenseForm extends React.Component {
         </ToggleDisplay>
 
         <div className="input-group">
-          <button className="button">Save Expense</button>
+          <button className="button">Save Expense</button>          
+          {this.state.editExpense && <button onClick={this.onConfirmRemove} className="button button--remove">Remove Expense</button>}            
         </div>
-          
-
+      
+      
     </form>
     );
   };
 };
 
-export default ExpenseForm;
+const mapDispatchToProps = (dispatch) => ({
+  startRemoveExpense: ({id, expenseFormId}) => (dispatch(startRemoveExpense({id, expenseFormId})))
+});
+
+export default connect(undefined, mapDispatchToProps)(ExpenseForm);
