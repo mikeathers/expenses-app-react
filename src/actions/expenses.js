@@ -1,5 +1,5 @@
 import database from "../firebase/firebase";
-
+import { editExpenseForm, startEditExpenseForm } from "./expenseForms";
 
 // ADD_EXPENSE
 export const addExpense = (expense) => ({
@@ -10,14 +10,28 @@ export const addExpense = (expense) => ({
 export const startAddExpense = (expense = {}) => {
   return (dispatch, getState) => {
     const uid = getState().auth.uid;
+    const expenseForm = getState().expenseForms.find((form) => form.id === expense.expenseFormId);
     return database.ref(`users/${uid}/expenseForms/${expense.expenseFormId}/expenses`).push(expense).then((ref) => {
       dispatch(addExpense({
         id: ref.key,
         ...expense
-      }));
+      }));      
+      const totalCost = expenseForm.totalCost += expense.totalCost;
+      const newExpenseForm = {
+        totalCost
+      };
+     dispatch(startEditExpenseForm(expenseForm.id, newExpenseForm));     
     });
   };
 };
+
+// ADD_EXPENSE_TO_EXPENSE_FORM
+export const addExpenseToExpenseForm = (id) => {
+  return {
+    type: "ADD_EXPENSE_TO_EXPENSE_FORM",
+
+  }
+}
 
 // EDIT_EXPENSE
 export const editExpense = (id, updates) => ({
@@ -30,10 +44,17 @@ export const startEditExpense = (id, updates) => {
   return (dispatch, getState) => {
     const uid = getState().auth.uid;
     const expense = getState().expenses.find((expense) => id === id);
-    const expenseFormId = expense.expenseFormId;
-    return database.ref(`users/${uid}/expenseForms/${expense.expenseFormId}/expenses/${id}`).update(updates).then(() => {
+    const expenseForm = getState().expenseForms.find((form) => form.id === expense.expenseFormId);
+    return database.ref(`users/${uid}/expenseForms/${expenseForm.id}/expenses/${id}`).update(updates).then(() => {
+      const totalCost = expenseForm.totalCost - expense.totalCost + updates.totalCost;
+      const newExpenseForm = {
+        ...expenseForm,
+        totalCost
+      };
       dispatch(editExpense(id, updates));
+      dispatch(startEditExpenseForm(expenseForm.id, newExpenseForm)); 
     });
+    
   }
 }
 
@@ -46,8 +67,15 @@ export const removeExpense = ({id} = {}) => ({
 export const startRemoveExpense = ({id, expenseFormId } = {}) => {
   return (dispatch, getState) => {
     const uid = getState().auth.uid;
+    const expenseForm = getState().expenseForms.find((form) => form.id === expense.expenseFormId);
     return database.ref(`users/${uid}/expenseForms/${expenseFormId}/expenses/${id}`).remove().then(() => {
+      const totalCost = expenseForm.totalCost - expense.totalCost;
+      const newExpenseForm = {
+        ...expenseForm,
+        totalCost
+      }
       dispatch(removeExpense({ id }));
+      dispatch(startEditExpenseForm(expenseForm.id, newExpenseForm));  
     }).catch((e) => console.log("Error removing the expense from firebse", e.message));
   };
 };

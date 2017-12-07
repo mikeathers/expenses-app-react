@@ -1,0 +1,7 @@
+
+
+On startAddExpense, after addExpense dispatch has been called 
+  
+  -> dispatch a call to AddExpenseToExpenseForm
+
+    -> takes an ExpenseFormId and adds all expenes from state to the expense form. 

@@ -18,6 +18,12 @@ class ExpenseFormHeader extends React.Component {
     });
   }
 
+  hideAddExpenseForm = (data) => {
+    this.setState({
+      showAddExpenseForm: data.hide
+    });
+  }
+
   
   render() {
     return (
@@ -30,7 +36,7 @@ class ExpenseFormHeader extends React.Component {
             </div>
             <div className="add-expense-form-right">
               <ToggleDisplay show={this.state.showAddExpenseForm}>
-                <AddExpenseForm />
+                <AddExpenseForm hideAddExpenseForm={this.hideAddExpenseForm} />
               </ToggleDisplay>
             </div>
           </div>

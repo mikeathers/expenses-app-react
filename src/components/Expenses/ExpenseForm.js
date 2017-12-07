@@ -13,8 +13,8 @@ export class ExpenseForm extends React.Component {
   constructor(props) {
     super();
     this.state = ({
-      travelSelected: true,
-      otherSelected: false,
+      travelSelected: false,
+      otherSelected: true,
       id: props.expense ? props.expense.id : "",
       expenseFormId: props.expense ? props.expense.expenseFormId : "",
       description: props.expense ? props.expense.description : "Travel",
@@ -25,6 +25,7 @@ export class ExpenseForm extends React.Component {
       odometerEnd: props.expense ? props.expense.odometerEnd : 0,
       totalMiles: props.expense ? props.expense.totalMiles : 0,
       totalCost: props.expense ? props.expense.totalCost : 0,
+      notes: props.expense ? props.expense.notes : "",
       calendarFocused: false,
       editExpense: props.editExpense ? true : false,
       modalIsOpen: false
@@ -34,14 +35,12 @@ export class ExpenseForm extends React.Component {
     if (e.target.value === "travel") {
       this.setState({
         travelSelected: !this.state.travelSelected,
-        otherSelected: false,
-        description: "Travel"
+        otherSelected: false
       })
     } else if (e.target.value === "other") {
       this.setState({
         travelSelected: false,
-        otherSelected: !this.state.otherSelected,
-        description: "Other"
+        otherSelected: !this.state.otherSelected
       });        
     }
   };
@@ -69,18 +68,21 @@ export class ExpenseForm extends React.Component {
       odometerStart: this.state.odometerStart,
       odometerEnd: this.state.odometerEnd,
       totalMiles: this.state.totalMiles,
-      totalCost: this.state.totalCost
+      totalCost: this.state.totalCost,
+      notes: this.state.notes
     });
   }
 
   onHandleData = (expenseData) => {
     this.setState({
-      origin: expenseData.origin,
-      destination: expenseData.destination,
-      odometerStart: expenseData.odometerStart,
-      odometerEnd: expenseData.odometerEnd,
-      totalMiles: expenseData.totalMiles,
-      totalCost: expenseData.totalCost
+      description: expenseData.description ? expenseData.description : "",
+      origin: expenseData.origin ? expenseData.origin : "",
+      destination: expenseData.destination ? expenseData.destination : "",
+      odometerStart: expenseData.odometerStart ? expenseData.odometerStart : "",
+      odometerEnd: expenseData.odometerEnd ? expenseData.odometerEnd : "",
+      totalMiles: expenseData.totalMiles ? expenseData.totalMiles : "",
+      totalCost: expenseData.totalCost ? expenseData.totalCost : "",
+      notes: expenseData.notes ? expenseData.notes : ""
     });
   };
 
@@ -120,7 +122,7 @@ export class ExpenseForm extends React.Component {
         </ToggleDisplay>
 
         <ToggleDisplay show={this.state.otherSelected}>
-          <OtherExpenseForm />
+          <OtherExpenseForm {...this.state} onHandleData={this.onHandleData} />
         </ToggleDisplay>
 
         <div className="input-group">

@@ -28,7 +28,6 @@ export class EditExpensePage extends React.Component {
     };
 
     this.props.startEditExpense(id, updates);
-    this.props.startEditExpenseForm(expenseFormId, newExpenseForm);
     this.props.history.push(`/expenseForm/${expenseFormId}`);
   };
 
@@ -41,7 +40,6 @@ export class EditExpensePage extends React.Component {
       ...expenseForm,
       totalCost
     }
-    this.props.startEditExpenseForm(expenseForm.id, newExpenseForm);
     this.props.startRemoveExpense({ id: this.props.expense.id, expenseFormId: this.props.expense.expenseFormId });
     this.props.history.push(`/expenseform/${this.props.expenseForm.id}`);
   }

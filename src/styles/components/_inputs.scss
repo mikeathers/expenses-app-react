@@ -8,8 +8,19 @@
   margin-top: 5px;
   display: block;
 
-  &--mileage {
+  &--price-per-mile {
     margin-left: $s-size;
+  }
+
+  &__other {
+    width: 100%;
+    margin-bottom: $s-size;
+  }
+
+  &__other--notes {
+    width: 100%;
+    margin-bottom: $s-size;
+    height: 100px;
   }
 }
 

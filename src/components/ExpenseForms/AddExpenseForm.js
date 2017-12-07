@@ -34,7 +34,14 @@ class AddExpenseForm extends React.Component {
 
    this.props.startAddExpenseForm(expenseForm);
    this.setState({ formName: "" })
+   this.hideAddExpenseForm();
  }; 
+
+ hideAddExpenseForm = () => {
+  this.props.hideAddExpenseForm({
+    hide: false
+  });
+ }
 
   render() {
     return (

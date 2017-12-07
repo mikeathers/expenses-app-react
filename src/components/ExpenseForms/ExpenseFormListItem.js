@@ -10,7 +10,7 @@ const ExpenseFormListItem = ({ id, name, totalCost, createdAt }) => (
       <span className="list-item__sub-title">Created: {moment(createdAt).format("MMMM Do, YYYY")}</span>
     </div>
     <div>
-      <h2 className="list-item__data">£{numeral(totalCost).format("0,000.00")}</h2>
+      <h2 className="list-item__data">£{numeral(totalCost / 100).format("0,0.00")}</h2>
     </div>
   </Link>
 );

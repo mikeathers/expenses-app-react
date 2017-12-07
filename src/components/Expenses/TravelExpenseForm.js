@@ -24,6 +24,7 @@ export class TravelExpenseForm extends React.Component {
 
   onHandleData = (expenseData) => {   
     this.props.onHandleData({
+      description: expenseData.description,
       origin: expenseData.origin,
       destination: expenseData.destination,
       odometerStart: expenseData.odometerStart,
@@ -63,7 +64,7 @@ export class TravelExpenseForm extends React.Component {
           <input
             type="number"
             defaultValue=".25"
-            className="text-input text-input--mileage"
+            className="text-input text-input--price-per-mile"
             ref={(input) => {this.pricePerMile = input}}
           />
         </div>

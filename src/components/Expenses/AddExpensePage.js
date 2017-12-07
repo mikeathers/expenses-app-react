@@ -16,14 +16,15 @@ class AddExpensePage extends React.Component {
       expenseFormId,
       ...expenseData
     }
-    const totalCost = expenseForm.totalCost += expense.totalCost;
-    const newExpenseForm = {
-      ...expenseForm,
-      totalCost
-    };
+
+    // const totalCost = expenseForm.totalCost += expense.totalCost;
+    // const newExpenseForm = {
+    //   ...expenseForm,
+    //   totalCost
+    // };
     
     this.props.startAddExpense(expense);
-    this.props.startEditExpenseForm(expenseFormId, newExpenseForm);
+    //this.props.startEditExpenseForm(expenseFormId, newExpenseForm);
     this.props.history.push(`/expenseForm/${this.props.match.params.id}`);
   }
   render() {

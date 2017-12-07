@@ -40,6 +40,7 @@ class OdometerForm extends React.Component {
 
   onHandleData = () => {
     this.props.onHandleData({
+      description: "Travel",
       origin: this.state.origin,
       destination: this.state.destination,
       odometerStart: this.state.odometerStart,

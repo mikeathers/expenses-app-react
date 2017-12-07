@@ -22,6 +22,16 @@ export const startAddExpenseForm = (expenseFormData = {}) => {
   };
 };
 
+// UPDATE_EXPENSE_FORM_WITH_EXPENSES
+export const updateExpenseFormWithExpenses = (id, expenses) => {
+  console.log(expenses);
+  return {
+    type: "UPDATE_EXPENSE_FORM_WITH_EXPENSES",
+    id, 
+    expenses
+  };
+};
+
 // EDIT_EXPENSE_FORM
 export const editExpenseForm = (id, updates) => {
   return {

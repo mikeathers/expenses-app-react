@@ -21,6 +21,22 @@ export default (state = expenseFormReducerDefaultState, action) => {
         }
       });
 
+    case "UPDATE_EXPENSE_FORM_WITH_EXPENSES": 
+      return state.map((expenseForm) => {
+        if (expenseForm.id === action.id) {
+          console.log(action.expenses);
+          return {
+            ...expenseForm,
+            expenses: {
+              ...expenseForm.expenses,
+              ...action.expenses
+            }            
+          };
+        } else {
+          return expenseForm;
+        }
+      });
+
     case "REMOVE_EXPENSE_FORM": 
       return state.filter(({ id }) => id !== action.id );
 

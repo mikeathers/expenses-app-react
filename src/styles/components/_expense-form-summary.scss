@@ -1,3 +1,6 @@
 .expense-form-summary {
-  display: flex;
+  padding: 0;
+  &__title {
+    margin-bottom: 0;
+  }
 }
