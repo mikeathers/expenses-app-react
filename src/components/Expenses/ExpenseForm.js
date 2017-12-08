@@ -12,9 +12,7 @@ import { startRemoveExpense } from "../../actions/expenses";
 export class ExpenseForm extends React.Component {
   constructor(props) {
     super();
-    this.state = ({
-      travelSelected: false,
-      otherSelected: true,
+    this.state = ({      
       id: props.expense ? props.expense.id : "",
       expenseFormId: props.expense ? props.expense.expenseFormId : "",
       description: props.expense ? props.expense.description : "Travel",
@@ -31,6 +29,24 @@ export class ExpenseForm extends React.Component {
       modalIsOpen: false
     });
   };
+
+  componentDidMount() {
+    if (this.props.expenseType === "travel") {
+      this.setState({ travelSelected: true, otherSelected: false });
+    } else {
+      this.setState({ travelSelected: false, otherSelected: true })
+    }
+    if (this.props.editExpense === true) {
+      this.setState({ selectDisabled: true })
+    }    
+    this.props.expenseType ? (
+      this.setState({selectedOption: this.props.expenseType})
+    ) : (
+      this.setState({ selectedOption: "" })
+    );
+  }
+ 
+ 
   onExpenseTypeChange = (e) => {
     if (e.target.value === "travel") {
       this.setState({
@@ -69,7 +85,8 @@ export class ExpenseForm extends React.Component {
       odometerEnd: this.state.odometerEnd,
       totalMiles: this.state.totalMiles,
       totalCost: this.state.totalCost,
-      notes: this.state.notes
+      notes: this.state.notes,
+      type: this.state.description === "Travel" ? "travel" : "other"
     });
   }
 
@@ -86,15 +103,12 @@ export class ExpenseForm extends React.Component {
     });
   };
 
-
-
   onConfirmRemove = (e) => {
     e.preventDefault();
     this.props.onConfirmRemove({
       modalIsOpen: true
     });
-  };
-  
+  }; 
 
   render() {
     return (
@@ -102,9 +116,13 @@ export class ExpenseForm extends React.Component {
 
         
         <div className="input-group">
-          <select onChange={this.onExpenseTypeChange} className="select">
-            <option value="travel">Travel</option>
-            <option value="other">Other</option>          
+          <select 
+            disabled={this.state.selectDisabled} 
+            value={this.state.selectedOption}   
+            onChange={this.onExpenseTypeChange} 
+            className="select">
+              <option value="travel">Travel</option>
+              <option value="other">Other</option>          
             </select>
           <SingleDatePicker
           date={this.state.createdAt}

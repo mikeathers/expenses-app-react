@@ -43,14 +43,15 @@ export const editExpense = (id, updates) => ({
 export const startEditExpense = (id, updates) => {
   return (dispatch, getState) => {
     const uid = getState().auth.uid;
-    const expense = getState().expenses.find((expense) => id === id);
+    const expense = getState().expenses.find((expense) => expense.id === id);
     const expenseForm = getState().expenseForms.find((form) => form.id === expense.expenseFormId);
     return database.ref(`users/${uid}/expenseForms/${expenseForm.id}/expenses/${id}`).update(updates).then(() => {
-      const totalCost = expenseForm.totalCost - expense.totalCost + updates.totalCost;
+      const totalCost = expenseForm.totalCost - expense.totalCost + updates.totalCost;      
       const newExpenseForm = {
         ...expenseForm,
         totalCost
       };
+      console.log(updates);
       dispatch(editExpense(id, updates));
       dispatch(startEditExpenseForm(expenseForm.id, newExpenseForm)); 
     });
@@ -67,7 +68,8 @@ export const removeExpense = ({id} = {}) => ({
 export const startRemoveExpense = ({id, expenseFormId } = {}) => {
   return (dispatch, getState) => {
     const uid = getState().auth.uid;
-    const expenseForm = getState().expenseForms.find((form) => form.id === expense.expenseFormId);
+    const expenseForm = getState().expenseForms.find((form) => form.id === expenseFormId);
+    const expense = getState().expenses.find((expense) => expense.id  === id)
     return database.ref(`users/${uid}/expenseForms/${expenseFormId}/expenses/${id}`).remove().then(() => {
       const totalCost = expenseForm.totalCost - expense.totalCost;
       const newExpenseForm = {

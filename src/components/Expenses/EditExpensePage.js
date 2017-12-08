@@ -9,39 +9,25 @@ import { startEditExpense, startRemoveExpense } from "../../actions/expenses";
 import { startEditExpenseForm } from "../../actions/expenseForms";
 
 export class EditExpensePage extends React.Component {
-  constructor() {
+  constructor(props) {
     super();
     this.state = {
-      modalIsOpen: false
+      modalIsOpen: false,
+      type: props.expense ? props.expense.type : ""
     };
   };
   onSubmit = (updates) => {
     const id = this.props.expense.id;
-    const expense = this.props.expense;
-    const expenseForm = this.props.expenseForm;
-    const expenseFormId = this.props.expenseForm.id;
-
-    const totalCost = expenseForm.totalCost - expense.totalCost + updates.totalCost;
-    const newExpenseForm = {
-      ...expenseForm,
-      totalCost
-    };
-
+    const expenseFormId = this.props.expenseForm.id;    
     this.props.startEditExpense(id, updates);
     this.props.history.push(`/expenseForm/${expenseFormId}`);
   };
 
   onRemove = () => {
-    const expenseForm = this.props.expenseForm;
-    const expense = this.props.expense;
-
-    const totalCost = expenseForm.totalCost - expense.totalCost;
-    const newExpenseForm = {
-      ...expenseForm,
-      totalCost
-    }
-    this.props.startRemoveExpense({ id: this.props.expense.id, expenseFormId: this.props.expense.expenseFormId });
-    this.props.history.push(`/expenseform/${this.props.expenseForm.id}`);
+    const id = this.props.expense.id;
+    const expenseFormId = this.props.expenseForm.id;
+    this.props.startRemoveExpense({ id, expenseFormId });
+    this.props.history.push(`/expenseform/${expenseFormId}`);
   }
 
   onConfirmRemove = (data) => {
@@ -53,6 +39,8 @@ export class EditExpensePage extends React.Component {
   onCloseModal = () => {
     this.setState({ modalIsOpen: false });
   }
+
+  //travelSelected = () => { this.props.expense.description === "travel" ? true : false; }
 
   render() {
     return (
@@ -69,6 +57,7 @@ export class EditExpensePage extends React.Component {
             expense={this.props.expense} 
             onSubmit={this.onSubmit} 
             onConfirmRemove={this.onConfirmRemove}
+            expenseType={this.state.type}
           />          
         </div>
         <ConfirmModal
@@ -86,7 +75,7 @@ export class EditExpensePage extends React.Component {
 
 const mapStateToProps = (state, props) => ({
   expenseForm: state.expenseForms.find((expenseForm) => expenseForm.id === props.match.params.expenseFormId ), 
-  expense: state.expenses.find((expense) => expense.id === props.match.params.id )
+  expense: state.expenses.find((expense) => expense.id === props.match.params.id)
 });
 
 const mapDispatchToProps = (dispatch) => ({

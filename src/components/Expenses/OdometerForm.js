@@ -1,4 +1,5 @@
 import React from "react";
+import numeral from "numeral";
 
 class OdometerForm extends React.Component {
   constructor(props) {
@@ -10,7 +11,7 @@ class OdometerForm extends React.Component {
       odometerStart: props.odometerStart ? props.odometerStart : "",
       odometerEnd: props.odometerEnd ? props.odometerEnd : "",
       totalMiles: props.totalMiles ? props.totalMiles : "",
-      totalCost: props.totalCost ? props.totalCost : "",  
+      totalCost: props.totalCost ? props.totalCost : "" 
     };
   }
 
@@ -31,7 +32,8 @@ class OdometerForm extends React.Component {
       case "odometerStart":
         return this.updateState("odometerStart", data);
       case "odometerEnd":
-        return this.updateState("odometerEnd", data);
+        return this.updateState("odometerEnd", data);  
+     break;
       default:
         return;
     };
@@ -52,9 +54,12 @@ class OdometerForm extends React.Component {
 
   onBlur = () => {
     const totalMiles = this.state.odometerEnd - this.state.odometerStart;
-    const totalCost = totalMiles * this.props.pricePerMile.value;
+    const totalCost =  totalMiles * this.props.pricePerMile.value;
+    const parsedCost = parseFloat(totalCost, 10) * 100;  
     this.updateState("totalMiles", totalMiles);
-    this.updateState("totalCost", totalCost);
+    this.updateState("totalCost", parsedCost);
+
+    
   };
 
   render() {

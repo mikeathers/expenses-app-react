@@ -16,15 +16,8 @@ class AddExpensePage extends React.Component {
       expenseFormId,
       ...expenseData
     }
-
-    // const totalCost = expenseForm.totalCost += expense.totalCost;
-    // const newExpenseForm = {
-    //   ...expenseForm,
-    //   totalCost
-    // };
     
     this.props.startAddExpense(expense);
-    //this.props.startEditExpenseForm(expenseFormId, newExpenseForm);
     this.props.history.push(`/expenseForm/${this.props.match.params.id}`);
   }
   render() {
@@ -37,7 +30,11 @@ class AddExpensePage extends React.Component {
         </div>
         <div className="content-container">
           <h2>New Expense</h2>
-          <ExpenseForm editExpense={false} onSubmit={this.onSubmit} />          
+          <ExpenseForm 
+            editExpense={false}
+            onSubmit={this.onSubmit} 
+            expenseType={"travel"}
+          />          
         </div>
       </div>
     );

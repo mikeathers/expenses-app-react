@@ -3,16 +3,17 @@ import React from "react";
 class OtherExpenseForm extends React.Component {
   constructor(props) {
     super();
-
     this.state = {
-      description: props.description? props.description : "",
+      description: props.description ? ( props.description === "Travel" ? "" : props.description ) : ( "" ),
       totalCost: props.totalCost ? (props.totalCost / 100).toString() : "",
       notes: props.notes ? props.notes : ""
     };
-  };
+  };  
+
   updateState = (state, data) => {
     this.setState({ [state]: data }, () => { this.onHandleData(); });
   };
+
   onChange = (e) => {
     const data = e.target.value;
     const id = e.target.id;
@@ -31,6 +32,7 @@ class OtherExpenseForm extends React.Component {
         return;
     }
   }
+  
   onHandleData = () => {
     this.props.onHandleData({
       description: this.state.description,
