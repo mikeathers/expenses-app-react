@@ -16,6 +16,7 @@ export class ExpenseForm extends React.Component {
       id: props.expense ? props.expense.id : "",
       expenseFormId: props.expense ? props.expense.expenseFormId : "",
       description: props.expense ? props.expense.description : "Travel",
+      mileageType: props.expense ? props.expense.mileageType : "odometer",
       createdAt: props.expense ? moment(props.expense.createdAt) : moment(),
       origin: props.expense ? props.expense.origin : "",
       destination: props.expense ? props.expense.destination : "",
@@ -26,7 +27,7 @@ export class ExpenseForm extends React.Component {
       notes: props.expense ? props.expense.notes : "",
       calendarFocused: false,
       editExpense: props.editExpense ? true : false,
-      modalIsOpen: false
+      modalIsOpen: false,
     });
   };
 
@@ -36,14 +37,17 @@ export class ExpenseForm extends React.Component {
     } else {
       this.setState({ travelSelected: false, otherSelected: true })
     }
+    if (this.props.expenseType) {
+      this.setState({selectedOption: this.props.expenseType});
+    } else {
+      this.setState({ selectedOption: "" });
+    }
+
     if (this.props.editExpense === true) {
       this.setState({ selectDisabled: true })
-    }    
-    this.props.expenseType ? (
-      this.setState({selectedOption: this.props.expenseType})
-    ) : (
-      this.setState({ selectedOption: "" })
-    );
+    }
+
+    
   }
  
  
@@ -79,6 +83,7 @@ export class ExpenseForm extends React.Component {
     this.props.onSubmit({
       createdAt: this.state.createdAt.valueOf(),
       description: this.state.description,
+      mileageType: this.state.mileageType,
       origin: this.state.origin,
       destination: this.state.destination,
       odometerStart: this.state.odometerStart,
@@ -93,6 +98,7 @@ export class ExpenseForm extends React.Component {
   onHandleData = (expenseData) => {
     this.setState({
       description: expenseData.description ? expenseData.description : "",
+      mileageType: expenseData.mileageType ? expenseData.mileageType : "",
       origin: expenseData.origin ? expenseData.origin : "",
       destination: expenseData.destination ? expenseData.destination : "",
       odometerStart: expenseData.odometerStart ? expenseData.odometerStart : "",
@@ -136,7 +142,12 @@ export class ExpenseForm extends React.Component {
         </div>
 
         <ToggleDisplay show={this.state.travelSelected}>
-          <TravelExpenseForm {...this.state} onHandleData={this.onHandleData} />
+          <TravelExpenseForm 
+            editExpense={this.state.editExpense} 
+            mileageType={this.state.mileageType} 
+            {...this.state} 
+            onHandleData={this.onHandleData} 
+          />
         </ToggleDisplay>
 
         <ToggleDisplay show={this.state.otherSelected}>

@@ -9,6 +9,7 @@ export const addExpense = (expense) => ({
 
 export const startAddExpense = (expense = {}) => {
   return (dispatch, getState) => {
+    
     const uid = getState().auth.uid;
     const expenseForm = getState().expenseForms.find((form) => form.id === expense.expenseFormId);
     return database.ref(`users/${uid}/expenseForms/${expense.expenseFormId}/expenses`).push(expense).then((ref) => {
@@ -25,14 +26,6 @@ export const startAddExpense = (expense = {}) => {
   };
 };
 
-// ADD_EXPENSE_TO_EXPENSE_FORM
-export const addExpenseToExpenseForm = (id) => {
-  return {
-    type: "ADD_EXPENSE_TO_EXPENSE_FORM",
-
-  }
-}
-
 // EDIT_EXPENSE
 export const editExpense = (id, updates) => ({
   type: "EDIT_EXPENSE",
@@ -47,15 +40,10 @@ export const startEditExpense = (id, updates) => {
     const expenseForm = getState().expenseForms.find((form) => form.id === expense.expenseFormId);
     return database.ref(`users/${uid}/expenseForms/${expenseForm.id}/expenses/${id}`).update(updates).then(() => {
       const totalCost = expenseForm.totalCost - expense.totalCost + updates.totalCost;      
-      const newExpenseForm = {
-        ...expenseForm,
-        totalCost
-      };
-      console.log(updates);
+      const newExpenseForm = { totalCost };
       dispatch(editExpense(id, updates));
       dispatch(startEditExpenseForm(expenseForm.id, newExpenseForm)); 
-    });
-    
+    });    
   }
 }
 
@@ -73,7 +61,6 @@ export const startRemoveExpense = ({id, expenseFormId } = {}) => {
     return database.ref(`users/${uid}/expenseForms/${expenseFormId}/expenses/${id}`).remove().then(() => {
       const totalCost = expenseForm.totalCost - expense.totalCost;
       const newExpenseForm = {
-        ...expenseForm,
         totalCost
       }
       dispatch(removeExpense({ id }));

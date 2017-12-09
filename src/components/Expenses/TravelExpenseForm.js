@@ -11,8 +11,6 @@ export class TravelExpenseForm extends React.Component {
     super();
 
     this.state = ({
-      odometerChecked: true,
-      googleMapsChecked: false,
       origin: props.origin ? props.origin : "",
       destination: props.destination ? props.destination : "",
       odometerStart: props.odometerStart ? props.odometerStart : 0,
@@ -22,9 +20,22 @@ export class TravelExpenseForm extends React.Component {
     });
   };
 
+  componentDidMount() {
+    if (this.props.mileageType === "odometer") {      
+      this.setState({ showOdometer: true, showGoogleMaps: false });
+    } else {
+      this.setState({ showOdometer: false, showGoogleMaps: true });
+    }
+    if (this.props.editExpense === true) {
+      this.setState({ selectDisabled: true })
+    }
+  };
+  
+
   onHandleData = (expenseData) => {   
     this.props.onHandleData({
       description: expenseData.description,
+      mileageType: expenseData.mileageType,
       origin: expenseData.origin,
       destination: expenseData.destination,
       odometerStart: expenseData.odometerStart,
@@ -37,13 +48,13 @@ export class TravelExpenseForm extends React.Component {
   onFormatChange = (e) => {
     if (e.target.value === "odometer") {
       this.setState({
-        odometerChecked: !this.state.odometerChecked,
-        googleMapsChecked: false
+        showOdometer: !this.state.showOdometer,
+        showGoogleMaps: false
       });
     } else if (e.target.value === "maps") {
       this.setState({
-        odometerChecked: false,
-        googleMapsChecked: !this.state.googleMapsChecked
+        showOdometer: false,
+        showGoogleMaps: !this.state.showGoogleMaps
       });
     };
   };
@@ -55,7 +66,7 @@ export class TravelExpenseForm extends React.Component {
       <div>
 
         <div className="input-group">
-          <select onChange={this.onFormatChange} className="select">
+          <select onChange={this.onFormatChange} disabled={this.state.selectDisabled} className="select">
             <option value="odometer">Odometer</option>
             <option value="maps">Google Maps</option>
           </select>
@@ -69,11 +80,11 @@ export class TravelExpenseForm extends React.Component {
           />
         </div>
 
-        <ToggleDisplay show={this.state.odometerChecked}>
+        <ToggleDisplay show={this.state.showOdometer}>
           <OdometerForm pricePerMile={this.pricePerMile} {...this.state} onHandleData={this.onHandleData}/>
         </ToggleDisplay>
-        <ToggleDisplay show={this.state.googleMapsChecked}>
-          <GoogleMapsForm />
+        <ToggleDisplay show={this.state.showGoogleMaps}>
+          <GoogleMapsForm pricePerMile={this.pricePerMile} {...this.state} onHandleData={this.onHandleData} />
         </ToggleDisplay>
 
       </div>

@@ -11,7 +11,7 @@ class OdometerForm extends React.Component {
       odometerStart: props.odometerStart ? props.odometerStart : "",
       odometerEnd: props.odometerEnd ? props.odometerEnd : "",
       totalMiles: props.totalMiles ? props.totalMiles : "",
-      totalCost: props.totalCost ? props.totalCost : "" 
+      totalCost: props.totalCost ? (props.totalCost / 100).toString() : "" 
     };
   }
 
@@ -43,21 +43,21 @@ class OdometerForm extends React.Component {
   onHandleData = () => {
     this.props.onHandleData({
       description: "Travel",
+      mileageType: "odometer",
       origin: this.state.origin,
       destination: this.state.destination,
       odometerStart: this.state.odometerStart,
       odometerEnd: this.state.odometerEnd,
       totalMiles: this.state.totalMiles,
-      totalCost: this.state.totalCost
+      totalCost: parseFloat(this.state.totalCost, 10) * 100
     });
   };
 
   onBlur = () => {
     const totalMiles = this.state.odometerEnd - this.state.odometerStart;
-    const totalCost =  totalMiles * this.props.pricePerMile.value;
-    const parsedCost = parseFloat(totalCost, 10) * 100;  
+    const totalCost =  totalMiles * this.props.pricePerMile.value; 
     this.updateState("totalMiles", totalMiles);
-    this.updateState("totalCost", parsedCost);
+    this.updateState("totalCost", totalCost);
 
     
   };
