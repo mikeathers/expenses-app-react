@@ -12,9 +12,14 @@ class GoogleMapsForm extends React.Component {
     }
   }
 
+  
   updateState = (state, data) => {
-    this.setState({ [state]: data }, () => { this.onHandleData() });
-  }
+    return new Promise(
+      (resolve, reject) => {
+        resolve(this.setState({ [state]: data }, () => { this.onHandleData() }));
+      }
+    );    
+  };
 
   onChange = (e) => {
     const id = e.target.id;
@@ -22,13 +27,27 @@ class GoogleMapsForm extends React.Component {
 
     switch (id) {
       case "origin":
-        return this.updateState("origin", data);
+        const origin = new google.maps.places.SearchBox(e.target);
+        this.updateState("origin", data);        
+        const originAutocomplete = new google.maps.places.Autocomplete(e.target);          
+        originAutocomplete.addListener("place_changed", () => {
+          const place = originAutocomplete.getPlace();
+          this.updateState("origin", place.formatted_address);
+        });
+        break;
       case "destination": 
-        return this.updateState("destination", data);
-      case "totalMiles": 
-        return this.updateState("totalMiles", data);
-      case "totalCost":
-        return this.updateState("totalCost", data);
+        let destination = new google.maps.places.SearchBox(e.target);
+        this.updateState("destination", data);
+        const destAutocomplete = new google.maps.places.Autocomplete(e.target);
+        destAutocomplete.addListener("place_changed", () => {
+          const place = destAutocomplete.getPlace().formatted_address;
+          this.updateState("destination", place).then(() => {
+            if (this.state.destination != null || undefined) {
+              this.calculateDistance(this.state.origin, this.state.destination)
+            }
+          });
+        });
+        break;
       default: 
         return;
     }
@@ -42,11 +61,51 @@ class GoogleMapsForm extends React.Component {
       totalMiles: this.state.totalMiles,
       totalCost: parseFloat(this.state.totalCost, 10) * 100
     });
+    console.log("cost: ", this.state.totalCost);
+    console.log("miles: ", this.state.totalMiles)
   };
+
+
+  calculateDistance = (origin, destination) => {
+    const service = new google.maps.DistanceMatrixService();
+    service.getDistanceMatrix({
+      origins: [origin],
+      destinations: [destination],
+      travelMode: google.maps.TravelMode.DRIVING,
+      unitSystem: google.maps.UnitSystem.IMPERIAL,
+      avoidHighways: false,
+      avoidTolls: false
+    }, this.getDistance);
+  }   
+
+  
+
+  getDistance = (response, status) => {
+    if (status != google.maps.DistanceMatrixStatus.OK) {
+      console.log("error");
+    } else {
+      const origin = response.originAddresses[0];
+      const destination = response.destinationAddresses[0];
+      if (response.rows[0].elements.status == "ZERO_RESULTS") {
+        console.log("no results");
+      } else {
+        // clear error
+        const distance = response.rows[0].elements[0].distance;
+        const distanceValue = distance.value;
+        const distanceText = distance.text;
+        const totalMiles = Math.ceil(distanceText.substring(0, distanceText.length - 3));
+        const totalCost = totalMiles * this.props.pricePerMile.value;
+
+        this.setState({
+          totalMiles,
+          totalCost
+        });
+      }
+    }
+  }
 
   render() {
     return (
-
       <div>
         <h2>Google Maps</h2>
         <div className="input-group">
@@ -63,7 +122,7 @@ class GoogleMapsForm extends React.Component {
             id="destination"
             placeholder="Destination"
             className="text-input"
-            value={this.state.destination}
+            value={this.state.destination}      
             onChange={this.onChange}
           />
         </div>
@@ -74,7 +133,6 @@ class GoogleMapsForm extends React.Component {
             placeholder="Total miles"
             className="text-input"
             value={this.state.totalMiles}
-            onChange={this.onChange}
           />
           <input
             type="number"
@@ -82,7 +140,6 @@ class GoogleMapsForm extends React.Component {
             placeholder="Total Cost (£)"
             className="text-input"
             value={this.state.totalCost}
-            onChange={this.onChange}
           />
         </div>
       </div>
