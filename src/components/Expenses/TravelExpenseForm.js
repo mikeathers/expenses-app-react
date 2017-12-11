@@ -17,12 +17,13 @@ export class TravelExpenseForm extends React.Component {
       odometerEnd: props.odometerEnd ? props.odometerEnd : 0,
       totalMiles: props.totalMiles ? props.totalMiles : 0,
       totalCost: props.totalCost ? props.totalCost : 0,
+      error: ""
     });
   };
 
   componentDidMount() {
     if (this.props.mileageType === "odometer") {      
-      this.setState({ showOdometer: true, showGoogleMaps: false });
+      this.setState({ showOdometer: true, showGoogleMaps: false, });
     } else {
       this.setState({ showOdometer: false, showGoogleMaps: true });
     }
@@ -41,7 +42,8 @@ export class TravelExpenseForm extends React.Component {
       odometerStart: expenseData.odometerStart,
       odometerEnd: expenseData.odometerEnd,
       totalMiles: expenseData.totalMiles,
-      totalCost: expenseData.totalCost
+      totalCost: expenseData.totalCost,
+      error: expenseData.error
     });
   };
 

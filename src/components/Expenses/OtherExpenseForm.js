@@ -4,9 +4,10 @@ class OtherExpenseForm extends React.Component {
   constructor(props) {
     super();
     this.state = {
-      description: props.description ? ( props.description === "Travel" ? "" : props.description ) : ( "" ),
+      description: props.expenseType ? ( props.expenseType === "travel" ? "" : props.description ) : ( "" ),
       totalCost: props.totalCost ? (props.totalCost / 100).toString() : "",
-      notes: props.notes ? props.notes : ""
+      notes: props.notes ? props.notes : "",
+      expenseType: props.expenseType
     };
   };  
 

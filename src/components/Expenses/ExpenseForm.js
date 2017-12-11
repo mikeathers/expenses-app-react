@@ -28,6 +28,8 @@ export class ExpenseForm extends React.Component {
       calendarFocused: false,
       editExpense: props.editExpense ? true : false,
       modalIsOpen: false,
+      error: "",
+      expenseType: props.expenseType ? props.expenseType : ""
     });
   };
 
@@ -37,31 +39,30 @@ export class ExpenseForm extends React.Component {
     } else {
       this.setState({ travelSelected: false, otherSelected: true })
     }
-    if (this.props.expenseType) {
-      this.setState({selectedOption: this.props.expenseType});
-    } else {
-      this.setState({ selectedOption: "" });
-    }
-
     if (this.props.editExpense === true) {
       this.setState({ selectDisabled: true })
-    }
+    }   
 
-    
+    if (this.props.expense) {
+      this.setState({ selectedOption: this.props.expenseType })
+    }
   }
- 
+
  
   onExpenseTypeChange = (e) => {
     if (e.target.value === "travel") {
       this.setState({
         travelSelected: !this.state.travelSelected,
-        otherSelected: false
-      })
+        otherSelected: false,
+        expenseType: "travel"
+      });
+
     } else if (e.target.value === "other") {
       this.setState({
         travelSelected: false,
-        otherSelected: !this.state.otherSelected
-      });        
+        otherSelected: !this.state.otherSelected,
+        expenseType: "other"
+      });      
     }
   };
 
@@ -80,6 +81,26 @@ export class ExpenseForm extends React.Component {
 
   onSubmit = (e) => {
     e.preventDefault();
+
+   
+    if (this.state.expenseType === "other") {      
+      if (this.state.description === "" || this.state.totalCost === "") {
+        this.setState({ error: "Description and amount are needed before you can submit this form."});
+        return;
+      }
+    }
+    else if (this.state.expenseType === "travel") {
+      if (this.state.origin === "" || this.state.destination === "") {
+        this.setState({ error: "Origin and Destination need to be filled in before you can submit the form."});
+        return;
+      }
+      else if (this.state.mileageType === "odometer") {
+        if (this.state.odometerStart === "" || this.state.odometerEnd === "") {
+          this.setState({ error: "Odometer start and end values are required before you can submit the form."});
+          return;
+        }
+      } 
+    }
     this.props.onSubmit({
       createdAt: this.state.createdAt.valueOf(),
       description: this.state.description,
@@ -93,7 +114,9 @@ export class ExpenseForm extends React.Component {
       notes: this.state.notes,
       type: this.state.description === "Travel" ? "travel" : "other"
     });
-  }
+   
+  }   
+ 
 
   onHandleData = (expenseData) => {
     this.setState({
@@ -105,7 +128,8 @@ export class ExpenseForm extends React.Component {
       odometerEnd: expenseData.odometerEnd ? expenseData.odometerEnd : "",
       totalMiles: expenseData.totalMiles ? expenseData.totalMiles : "",
       totalCost: expenseData.totalCost ? expenseData.totalCost : "",
-      notes: expenseData.notes ? expenseData.notes : ""
+      notes: expenseData.notes ? expenseData.notes : "",
+      error: expenseData.error ? expenseData.error : ""
     });
   };
 
@@ -153,6 +177,8 @@ export class ExpenseForm extends React.Component {
         <ToggleDisplay show={this.state.otherSelected}>
           <OtherExpenseForm {...this.state} onHandleData={this.onHandleData} />
         </ToggleDisplay>
+
+        {this.state.error && <p className="form__error">{this.state.error}</p>}
 
         <div className="input-group">
           <button className="button">Save Expense</button>          

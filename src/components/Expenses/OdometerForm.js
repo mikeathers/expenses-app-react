@@ -11,7 +11,8 @@ class OdometerForm extends React.Component {
       odometerStart: props.odometerStart ? props.odometerStart : "",
       odometerEnd: props.odometerEnd ? props.odometerEnd : "",
       totalMiles: props.totalMiles ? props.totalMiles : "",
-      totalCost: props.totalCost ? (props.totalCost / 100).toString() : "" 
+      totalCost: props.totalCost ? (props.totalCost / 100).toString() : "" ,
+      error: ""
     };
   }
 
@@ -19,8 +20,10 @@ class OdometerForm extends React.Component {
     this.setState({ [state]: data }, () => { this.onHandleData(); });
   };
 
-  
+  odometerStart = () => this.odometerStart;
+
   onChange = (e) => {
+    this.setState({ error: "" });
     const data = e.target.value;
     const id = e.target.id;
 
@@ -49,11 +52,21 @@ class OdometerForm extends React.Component {
       odometerStart: this.state.odometerStart,
       odometerEnd: this.state.odometerEnd,
       totalMiles: this.state.totalMiles,
-      totalCost: parseFloat(this.state.totalCost, 10) * 100
+      totalCost: parseFloat(this.state.totalCost, 10) * 100,
+      error: this.state.error
     });
   };
 
-  onBlur = () => {
+  onBlur = (e) => {
+    if (e.target.value === "") {
+      return;
+    }
+
+    if (e.target.value <= this.odometerStart.value) {
+      this.updateState("error", "Odometer End value must be greater than start value.");
+      return;
+    } 
+
     const totalMiles = this.state.odometerEnd - this.state.odometerStart;
     const totalCost =  totalMiles * this.props.pricePerMile.value; 
     this.updateState("totalMiles", totalMiles);
@@ -99,6 +112,7 @@ class OdometerForm extends React.Component {
             className="text-input"
             onChange={this.onChange}
             value={this.state.odometerStart}
+            ref={(input) => { this.odometerStart = input }}
           />
           </label>
           <label>Odometer End:
