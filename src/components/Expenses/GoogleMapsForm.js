@@ -1,9 +1,10 @@
 import React from "react";
 
+import updateState from "../../utility/updateState";
+
 class GoogleMapsForm extends React.Component {
   constructor(props) {
     super();
-
     this.state = {
       origin: props.origin ? props.origin : "",
       destination: props.destination ? props.destination : "",
@@ -12,47 +13,40 @@ class GoogleMapsForm extends React.Component {
       error: ""
     };
   }
-
+  googleMapsOrigin = () => this.googleMapsOrigin;
+  googleMapsDestination = () => this.googleMapsDestination;
   
   updateState = (state, data) => {
     return new Promise(
-      (resolve, reject) => {
-        resolve(this.setState({ [state]: data }, () => { this.onHandleData() }));
-      }
+      (resolve, reject) => { resolve(this.setState({ [state]: data }, () => { this.onHandleData() })); }
     );    
+  };  
+
+  placesEventListener = (searchbox, state) => {     
+    google.maps.event.addDomListener(searchbox, "keydown", (e) => {
+      if (e.keyCode === 13) { e.preventDefault(); }
+    });
   };
 
-  googleMapsOrigin = () => this.googleMapsOrigin;
-  googleMapsDestination = () => this.googleMapsDestination;
-
-  placesEventListener = (searchbox, state) => {
-    return new Promise(
-      (resolve, reject) => {        
-        google.maps.event.addDomListener(this.googleMapsOrigin, "keydown", (e) => {
-          if (e.keyCode === 13) { e.preventDefault(); e.stopPropagation(); }
-        })
-        const autocomplete = new google.maps.places.Autocomplete(searchbox);
-        autocomplete.addListener("place_changed" , () => {
-          const place = autocomplete.getPlace().formatted_address;
-          resolve(this.updateState(state, place));
-          console.log("hello");
-        });
-      }).then(() => {        
+  onSetOrigin = () => {
+    this.updateState("origin", this.googleMapsOrigin.value);    
+  }
+  onSetDestination = () => {
+    this.updateState("destination", this.googleMapsDestination.value).then(() => {
+      this.calculateDistance(this.state.origin, this.state.destination);
     });
   }
-
+  componentDidMount() {
+    this.placesEventListener(this.googleMapsOrigin);
+    this.placesEventListener(this.googleMapsDestination);
+  }
   onChange = (e) => {
     const id = e.target.id;
     const data = e.target.value;
-
     switch (id) {
-      case "origin":
-        google.maps.event.addDomListener(this.googleMapsOrigin, "keydown", (e) => {
-          if (e.keyCode === 13) { e.preventDefault(); e.stopPropagation(); }
-        })
+      case "origin":       
         const origin = new google.maps.places.SearchBox(e.target);
         this.updateState("origin", data);      
-
         break;
       case "destination": 
         let destination = new google.maps.places.SearchBox(e.target);
@@ -123,7 +117,6 @@ class GoogleMapsForm extends React.Component {
             value={this.state.origin}
             onChange={this.onChange}
             ref={(input) => {this.googleMapsOrigin = input}}
-            onFocus={this.onFocus}
           />
           </label>
           <label>Destination:
@@ -135,31 +128,32 @@ class GoogleMapsForm extends React.Component {
             value={this.state.destination}      
             onChange={this.onChange}
             ref={(input) => {this.googleMapsDestination = input}}
-            onFocus={this.onFocus}
+            onFocus={this.onSetOrigin}
           />
           </label>
           {this.state.error && <p className="form__error">{this.state.error}</p>}
           <div className="input-group">
-        <label>Total Miles:
-          <input
-            type="number"
-            id="totalMiles"
-            placeholder="Total miles"
-            className="text-input"
-            value={this.state.totalMiles}
-            readOnly={true}
-          />
-          </label>
-          <label>Total Cost:
-          <input
-            type="number"
-            id="totalCost"
-            placeholder="Total Cost (£)"
-            className="text-input"
-            value={this.state.totalCost}
-            readOnly={true}
-          />
-          </label>
+            <label>Total Miles:
+              <input
+                type="number"
+                id="totalMiles"
+                placeholder="Total miles"
+                className="text-input"
+                value={this.state.totalMiles}
+                readOnly={true}
+                onFocus={this.onSetDestination}
+              />
+              </label>
+              <label>Total Cost:
+              <input
+                type="number"
+                id="totalCost"
+                placeholder="Total Cost (£)"
+                className="text-input"
+                value={this.state.totalCost}
+                readOnly={true}            
+              />
+            </label>
           </div>      
           {this.state.error && <p className="form__error">{this.state.error}</p>}   
       </div>

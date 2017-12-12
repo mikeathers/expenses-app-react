@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 
 import ExpenseFormSummary from "../ExpenseForms/ExpenseFormSummary";
 import ExpensesList from "../Expenses/ExpensesList";
+import ExpenseListFilters from "./ExpenseListFilter";
 import ConfirmModal from "../ConfirmModel";
 import { startSetExpenses } from "../../actions/expenses";
 import { startRemoveExpenseForm } from "../../actions/expenseForms";
@@ -46,6 +47,7 @@ export class ExpenseFormPage extends React.Component {
         </div>
       </div>
       <div className="content-container">
+          <ExpenseListFilters />
           <ExpensesList />       
       </div>
       <ConfirmModal
