@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { DateRangePicker } from "react-dates";
-import { setTextFilter, sortByAmount, sortByDate, setStartDate, setEndDate } from "../../actions/filters";
+import { setTextFilter, setSortBy, setStartDate, setEndDate } from "../../actions/filters";
 
 export class ExpenseListFilter extends React.Component {
   constructor() {
@@ -16,16 +16,18 @@ export class ExpenseListFilter extends React.Component {
     switch (id) {
       case "textFilter": 
         return this.props.setTextFilter(data);      
-      case "datePicker": 
-        return;
       default: 
         return;
     }
   };
 
-  onSortChange = (e) => {console.log(e.target);
-      if (e.target.value === "date") { console.log("date");this.props.sortByDate(); }
-      else if (e.target.value === "amount") { this.props.sortByAmount(); }
+  onSortChange = (e) => {
+      const value = e.target.value;
+      if (value == "Date") {
+        this.props.setSortBy("date")
+      } else if (value == "Amount") {
+      this.props.setSortBy("amount");
+    }      
   }
 
   onDatesChange = ({ startDate, endDate }) => {
@@ -52,7 +54,6 @@ export class ExpenseListFilter extends React.Component {
           <select
             id="sortByPicker"
             className="select"
-            //value={this.props.filters.sortBy}
             onChange={this.onSortChange}
           >
             <option id="date">Date</option>
@@ -76,8 +77,7 @@ export class ExpenseListFilter extends React.Component {
 
 const mapDispatchToProps = (dispatch) => ({
   setTextFilter: (text) => dispatch(setTextFilter(text)),
-  SortByAmount: () => dispatch(sortByAmount),
-  sortByDate: () => dispatch(sortByDate),
+  setSortBy: (sortBy) => dispatch(setSortBy(sortBy)),
   setStartDate: (startDate) => dispatch(setStartDate(startDate)),
   setEndDate: (endDate) => dispatch(setEndDate(endDate))
 });

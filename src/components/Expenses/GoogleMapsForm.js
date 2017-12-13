@@ -12,7 +12,8 @@ class GoogleMapsForm extends React.Component {
       totalCost: props.totalCost ? (props.totalCost / 100).toString() : "",
       error: ""
     };
-  }
+  };
+
   googleMapsOrigin = () => this.googleMapsOrigin;
   googleMapsDestination = () => this.googleMapsDestination;
   
@@ -20,7 +21,7 @@ class GoogleMapsForm extends React.Component {
     return new Promise(
       (resolve, reject) => { resolve(this.setState({ [state]: data }, () => { this.onHandleData() })); }
     );    
-  };  
+  }; 
 
   placesEventListener = (searchbox, state) => {     
     google.maps.event.addDomListener(searchbox, "keydown", (e) => {
@@ -30,19 +31,23 @@ class GoogleMapsForm extends React.Component {
 
   onSetOrigin = () => {
     this.updateState("origin", this.googleMapsOrigin.value);    
-  }
-  onSetDestination = () => {
+  };
+
+  onSetDestination = () => {  
     this.updateState("destination", this.googleMapsDestination.value).then(() => {
       this.calculateDistance(this.state.origin, this.state.destination);
     });
-  }
+  };
+
   componentDidMount() {
     this.placesEventListener(this.googleMapsOrigin);
     this.placesEventListener(this.googleMapsDestination);
-  }
+  };
+
   onChange = (e) => {
     const id = e.target.id;
     const data = e.target.value;
+    this.updateState("error", "");
     switch (id) {
       case "origin":       
         const origin = new google.maps.places.SearchBox(e.target);
@@ -54,8 +59,9 @@ class GoogleMapsForm extends React.Component {
         break;
       default: 
         return;
-    }
-  }
+    };
+  };
+
   onHandleData = () => {
     this.props.onHandleData({
       description: "Travel",
@@ -63,10 +69,10 @@ class GoogleMapsForm extends React.Component {
       origin: this.state.origin,
       destination: this.state.destination,
       totalMiles: this.state.totalMiles,
-      totalCost: parseFloat(this.state.totalCost, 10) * 100
+      totalCost: parseFloat(this.state.totalCost, 10) * 100,
+      error: this.state.error
     });
   };
-
 
   calculateDistance = (origin, destination) => {
     const service = new google.maps.DistanceMatrixService();
@@ -78,18 +84,14 @@ class GoogleMapsForm extends React.Component {
       avoidHighways: false,
       avoidTolls: false
     }, this.getDistance);
-  }   
-
-  
+  };
 
   getDistance = (response, status) => {
     if (status != google.maps.DistanceMatrixStatus.OK) {
-      this.setState({ error: "There was a problem retrieving map information from the Google servers."})
+      this.updateState("error", "There was a problem retrieving map information from the Google servers.");
     } else {
-      const origin = response.originAddresses[0];
-      const destination = response.destinationAddresses[0];
-      if (response.rows[0].elements.status == "ZERO_RESULTS") {
-        this.setState({ error: "There was a problem with the places you entered, make sure you select the correct address for your country." })
+      if (response.rows[0].elements[0].status === "ZERO_RESULTS") {
+        this.updateState("error", "There was a problem with the places you entered, make sure you select the correct address for your country.");
       } else {
         // clear error
         const distance = response.rows[0].elements[0].distance;
@@ -100,9 +102,9 @@ class GoogleMapsForm extends React.Component {
 
         this.updateState("totalMiles", totalMiles);
         this.updateState("totalCost", totalCost);
-      }
-    }
-  }
+      };
+    };
+  };
 
   render() {
     return (
@@ -131,7 +133,6 @@ class GoogleMapsForm extends React.Component {
             onFocus={this.onSetOrigin}
           />
           </label>
-          {this.state.error && <p className="form__error">{this.state.error}</p>}
           <div className="input-group">
             <label>Total Miles:
               <input
@@ -154,12 +155,11 @@ class GoogleMapsForm extends React.Component {
                 readOnly={true}            
               />
             </label>
-          </div>      
-          {this.state.error && <p className="form__error">{this.state.error}</p>}   
+          </div>        
       </div>
 
     );
-  }
-}
+  };
+};
 
 export default GoogleMapsForm;

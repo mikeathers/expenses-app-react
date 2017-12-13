@@ -41,8 +41,7 @@ export class ExpenseForm extends React.Component {
     }
     if (this.props.editExpense === true) {
       this.setState({ selectDisabled: true })
-    }   
-
+    }
     if (this.props.expense) {
       this.setState({ selectedOption: this.props.expenseType })
     }
