@@ -29,7 +29,8 @@ export class ExpenseForm extends React.Component {
       editExpense: props.editExpense ? true : false,
       modalIsOpen: false,
       error: "",
-      expenseType: props.expenseType ? props.expenseType : ""
+      expenseType: props.expenseType ? props.expenseType : "",
+      pricePerMile: props.expense ? props.expense.pricePerMile : .25
     });
   };
 
@@ -111,7 +112,8 @@ export class ExpenseForm extends React.Component {
       totalMiles: this.state.totalMiles,
       totalCost: this.state.totalCost,
       notes: this.state.notes,
-      type: this.state.description === "Travel" ? "travel" : "other"
+      type: this.state.description === "Travel" ? "travel" : "other",
+      pricePerMile: this.state.pricePerMile
     });
    
   }   
@@ -128,6 +130,7 @@ export class ExpenseForm extends React.Component {
       totalMiles: expenseData.totalMiles ? expenseData.totalMiles : "",
       totalCost: expenseData.totalCost ? expenseData.totalCost : "",
       notes: expenseData.notes ? expenseData.notes : "",
+      pricePerMile: expenseData.pricePerMile ? expenseData.pricePerMile : "",
       error: expenseData.error ? expenseData.error : ""
     });
   };
@@ -149,7 +152,7 @@ export class ExpenseForm extends React.Component {
             disabled={this.state.selectDisabled} 
             value={this.state.selectedOption}   
             onChange={this.onExpenseTypeChange} 
-            className="select">
+            className="select text-input__date">
               <option value="travel">Travel</option>
               <option value="other">Other</option>          
             </select>

@@ -68,7 +68,7 @@ class OdometerForm extends React.Component {
     } 
 
     const totalMiles = this.state.odometerEnd - this.state.odometerStart;
-    const totalCost =  totalMiles * this.props.pricePerMile.value; 
+    const totalCost =  totalMiles * this.props.pricePerMile; 
     this.updateState("totalMiles", totalMiles);
     this.updateState("totalCost", totalCost);
 
@@ -81,76 +81,88 @@ class OdometerForm extends React.Component {
       <div>
         <h2>Odometer</h2>
         <div className="input-group">
-          <label>Origin:
+          <div className="input-group__item">
+            <label>Origin:
             <input
-              type="text"
-              id="origin"
-              placeholder="Enter Origin"
-              className="text-input"
-              onChange={this.onChange}
-              value={this.state.origin}
-            />
-          </label>
-          <label>Destination:
+                type="text"
+                id="origin"
+                placeholder="Enter Origin"
+                className="text-input"
+                onChange={this.onChange}
+                value={this.state.origin}
+              />
+            </label>
+          </div>
+          <div className="input-group__item">
+            <label>Destination:
           <input
-            type="text"
-            id="destination"
-            placeholder="Enter Destination"
-            className="text-input"
-            onChange={this.onChange}
-            value={this.state.destination}
-          />
-          </label>
+                type="text"
+                id="destination"
+                placeholder="Enter Destination"
+                className="text-input"
+                onChange={this.onChange}
+                value={this.state.destination}
+              />
+            </label>
+          </div>
         </div>
-       
+
         <div className="input-group">
-        <label>Odometer Start:
+          <div className="input-group__item">
+            <label>Odometer Start:
           <input
-            type="number"
-            id="odometerStart"
-            placeholder="Odometer Start"
-            className="text-input"
-            onChange={this.onChange}
-            value={this.state.odometerStart}
-            ref={(input) => { this.odometerStart = input }}
-          />
-          </label>
-          <label>Odometer End:
+                type="number"
+                id="odometerStart"
+                placeholder="Odometer Start"
+                className="text-input"
+                onChange={this.onChange}
+                value={this.state.odometerStart}
+                ref={(input) => { this.odometerStart = input }}
+              />
+            </label>
+          </div>
+          <div className="input-group__item">
+            <label>Odometer End:
           <input
-            type="number"
-            id="odometerEnd"
-            placeholder="Odometer End"
-            className="text-input"
-            onBlur={this.onBlur}
-            onChange={this.onChange}
-            value={this.state.odometerEnd}
-          />
-          </label>
+                type="number"
+                id="odometerEnd"
+                placeholder="Odometer End"
+                className="text-input"
+                onBlur={this.onBlur}
+                onChange={this.onChange}
+                value={this.state.odometerEnd}
+              />
+            </label>
+          </div>
         </div>
         <div className="input-group">
-        <label>Total Miles:
+          <div className="input-group__item">
+            <label>Total Miles:
           <input
-            type="number"
-            id="totalMiles"
-            placeholder="Total Miles"
-            className="text-input"
-            readOnly="true"
-            onChange={this.onChange}
-            value={this.state.totalMiles}
-          />
-          </label>
-          <label>Total Cost:
+                type="number"
+                id="totalMiles"
+                placeholder="Total Miles"
+                className="text-input"
+                readOnly="true"
+                onChange={this.onChange}
+                value={this.state.totalMiles}
+              />
+            </label>
+          </div>
+          <div className="input-group__item">
+            <label>Total Cost:
           <input
-            type="number"
-            id="totalCost"
-            name="totalCost"
-            placeholder="Total Cost (£)"
-            className="text-input"
-            readOnly="true"
-            onChange={this.onChange}
-            value={this.state.totalCost}
-          />
-          </label>
+                type="number"
+                id="totalCost"
+                name="totalCost"
+                placeholder="Total Cost (£)"
+                className="text-input"
+                readOnly="true"
+                onChange={this.onChange}
+                value={this.state.totalCost}
+              />
+            </label>
+          </div>
         </div>
       </div>
     );

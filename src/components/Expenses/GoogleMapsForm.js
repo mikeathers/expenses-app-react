@@ -98,7 +98,7 @@ class GoogleMapsForm extends React.Component {
         const distanceValue = distance.value;
         const distanceText = distance.text;
         const totalMiles = Math.ceil(distanceText.substring(0, distanceText.length - 3));
-        const totalCost = totalMiles * this.props.pricePerMile.value;
+        const totalCost = totalMiles * this.props.pricePerMile;
 
         this.updateState("totalMiles", totalMiles);
         this.updateState("totalCost", totalCost);
@@ -110,6 +110,7 @@ class GoogleMapsForm extends React.Component {
     return (
       <div>
         <h2>Google Maps</h2>
+        <div className="input-group__item">
         <label>Origin:
           <input
             type="text"
@@ -121,6 +122,8 @@ class GoogleMapsForm extends React.Component {
             ref={(input) => {this.googleMapsOrigin = input}}
           />
           </label>
+          </div>
+          <div className="input-group__item">
           <label>Destination:
           <input
             type="text"
@@ -133,6 +136,8 @@ class GoogleMapsForm extends React.Component {
             onFocus={this.onSetOrigin}
           />
           </label>
+          </div>
+          <div className="input-group__item">
           <div className="input-group">
             <label>Total Miles:
               <input
@@ -155,6 +160,7 @@ class GoogleMapsForm extends React.Component {
                 readOnly={true}            
               />
             </label>
+            </div>
           </div>        
       </div>
 

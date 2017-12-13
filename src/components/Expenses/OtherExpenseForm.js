@@ -44,6 +44,7 @@ class OtherExpenseForm extends React.Component {
   render() {
     return (
       <div>       
+      <div className="input-group__item">
         <label>Description:
           <input
             type="text"
@@ -53,7 +54,9 @@ class OtherExpenseForm extends React.Component {
             value={this.state.description}
             onChange={this.onChange}
           />
-          </label>   
+          </label> 
+          </div>
+          <div className="input-group__item">  
           <label>Amount:
           <input
             type="number"
@@ -64,6 +67,8 @@ class OtherExpenseForm extends React.Component {
             onChange={this.onChange}
           />
           </label>  
+          </div>
+          <div className="input-group__item">
           <label>Notes:
           <textarea
             type="text"
@@ -74,6 +79,7 @@ class OtherExpenseForm extends React.Component {
             onChange={this.onChange}
           />
           </label>  
+          </div>
       </div>
     );
   }

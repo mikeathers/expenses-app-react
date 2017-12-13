@@ -17,6 +17,7 @@ export class TravelExpenseForm extends React.Component {
       odometerEnd: props.odometerEnd ? props.odometerEnd : 0,
       totalMiles: props.totalMiles ? props.totalMiles : 0,
       totalCost: props.totalCost ? props.totalCost : 0,
+      pricePerMile: props.pricePerMile ? props.pricePerMile : .25,
       error: ""
     });
   };
@@ -43,6 +44,7 @@ export class TravelExpenseForm extends React.Component {
       odometerEnd: expenseData.odometerEnd,
       totalMiles: expenseData.totalMiles,
       totalCost: expenseData.totalCost,
+      pricePerMile: this.state.pricePerMile,
       error: expenseData.error
     });
   };
@@ -60,6 +62,10 @@ export class TravelExpenseForm extends React.Component {
       });
     };
   };
+
+  onPricePerMileChange = (e) => {
+    this.setState({ pricePerMile: e.target.value });
+  }
   
   pricePerMile = () => (this.pricePerMile);
 
@@ -76,17 +82,18 @@ export class TravelExpenseForm extends React.Component {
           <p>Price per mile: </p>
           <input
             type="number"
-            defaultValue=".25"
+            value={this.state.pricePerMile}
+            step="0.01"
             className="text-input text-input--price-per-mile"
-            ref={(input) => {this.pricePerMile = input}}
+            onChange={this.onPricePerMileChange}
           />
         </div>
 
         <ToggleDisplay show={this.state.showOdometer}>
-          <OdometerForm pricePerMile={this.pricePerMile} {...this.state} onHandleData={this.onHandleData}/>
+          <OdometerForm {...this.state} onHandleData={this.onHandleData}/>
         </ToggleDisplay>
         <ToggleDisplay show={this.state.showGoogleMaps}>
-          <GoogleMapsForm pricePerMile={this.pricePerMile} {...this.state} onHandleData={this.onHandleData} />
+          <GoogleMapsForm {...this.state} onHandleData={this.onHandleData} />
         </ToggleDisplay>
 
       </div>

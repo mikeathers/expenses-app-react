@@ -22,6 +22,16 @@
     margin-bottom: $s-size;
     height: 100px;
   }
+
+  &__filters {
+    margin-right: 0;
+    margin-top: 0;
+  }
+
+  &__date {
+    margin-right: $m-size;
+    margin-top: 0;
+  }
 }
 
 .select {
