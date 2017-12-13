@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 
-import ExpenseFormSummary from "../ExpenseForms/ExpenseFormSummary";
+import ExpenseFormTitle from "../ExpenseForms/ExpenseFormTitle";
 import ExpenseForm from "../Expenses/ExpenseForm";
 import { startAddExpense, startEditExpense } from "../../actions/expenses";
 import { startEditExpenseForm } from "../../actions/expenseForms";
@@ -25,7 +25,11 @@ class AddExpensePage extends React.Component {
       <div>
         <div className="page-header">
           <div className="content-container">
-            <ExpenseFormSummary name={this.props.expenseForm.name} totalCost={this.props.expenseForm.totalCost}/>
+            <ExpenseFormTitle 
+              name={this.props.expenseForm.name}
+              totalCost={this.props.expenseForm.totalCost}
+              expenseFormId={this.props.expenseForm.id}
+            />
           </div>
         </div>
         <div className="content-container">
@@ -34,6 +38,7 @@ class AddExpensePage extends React.Component {
             editExpense={false}
             onSubmit={this.onSubmit} 
             expenseType={"travel"}
+            expenseFormId={this.props.expenseForm.id}
           />          
         </div>
       </div>

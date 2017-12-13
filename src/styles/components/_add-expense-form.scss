@@ -2,15 +2,16 @@
   
   &__input {
     @extend .text-input;
-    margin-right: 0;
+    display: inline-block;
+  }
+  &__button {
+    @extend .button;
+    margin-left: -$m-size;
+    height: 50px;
     display: inline-block;
   }
 
-  &__button {
-    @extend .button;
-    height: 50px;
-    margin-top: $s-size;
+  div {
+    display: inline-block;
   }
 }
-
-

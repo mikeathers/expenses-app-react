@@ -3,6 +3,7 @@ import ToggleDisplay from "react-toggle-display";
 import { SingleDatePicker } from "react-dates";
 import moment from "moment";
 import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 
 import TravelExpenseForm from "../Expenses/TravelExpenseForm";
 import OtherExpenseForm from "../Expenses/OtherExpenseForm";
@@ -184,7 +185,8 @@ export class ExpenseForm extends React.Component {
 
         <div className="input-group">
           <button className="button">Save Expense</button>          
-          {this.state.editExpense && <button onClick={this.onConfirmRemove} className="button button--remove">Remove Expense</button>}            
+          {this.state.editExpense && <button onClick={this.onConfirmRemove} className="button button--remove">Remove Expense</button>}   
+          {!this.state.editExpense && <Link className="button button--secondary" to={`/expenseform/${this.props.expenseFormId}`}>Cancel</Link>}         
         </div>
       
       

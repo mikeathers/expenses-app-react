@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 
-import ExpenseFormSummary from "../ExpenseForms/ExpenseFormSummary";
+import ExpenseFormTitle from "../ExpenseForms/ExpenseFormTitle";
 import ExpenseForm from "../Expenses/ExpenseForm";
 import ConfirmModal from "../ConfirmModel";
 import { startEditExpense, startRemoveExpense } from "../../actions/expenses";
@@ -47,7 +47,7 @@ export class EditExpensePage extends React.Component {
       <div>
         <div className="page-header">
           <div className="content-container">
-            <ExpenseFormSummary name={this.props.expenseForm.name} totalCost={this.props.expenseForm.totalCost}/>
+            <ExpenseFormTitle name={this.props.expenseForm.name} totalCost={this.props.expenseForm.totalCost}/>
           </div>
         </div>
         <div className="content-container">

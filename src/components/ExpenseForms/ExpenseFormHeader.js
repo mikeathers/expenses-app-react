@@ -30,11 +30,11 @@ class ExpenseFormHeader extends React.Component {
       <div className="page-header">
         <div className="content-container">
         <h1 className="page-header__title">Expense Forms</h1>
-          <div className="add-expense-form-container">
-            <div className="add-expense-form-left">              
+          <div className="add-expense-form">
+            <div>              
               <button className="button button--add-form" onClick={this.onShowAddExpenseForm}>Add Expense Form</button>    
             </div>
-            <div className="add-expense-form-right">
+            <div>
               <ToggleDisplay show={this.state.showAddExpenseForm}>
                 <AddExpenseForm hideAddExpenseForm={this.hideAddExpenseForm} />
               </ToggleDisplay>
