@@ -74,12 +74,14 @@ export class TravelExpenseForm extends React.Component {
       <div>
 
         <div className="input-group">
+        <div className="input-group__item">
           <select onChange={this.onFormatChange} disabled={this.state.selectDisabled} className="select">
             <option value="odometer">Odometer</option>
             <option value="maps">Google Maps</option>
           </select>
-
-          <p>Price per mile: </p>
+        </div>
+        <div className="input-group__item">  <p>Price per mile: </p></div>
+        <div className="input-group__item">
           <input
             type="number"
             value={this.state.pricePerMile}
@@ -87,6 +89,7 @@ export class TravelExpenseForm extends React.Component {
             className="text-input text-input--price-per-mile"
             onChange={this.onPricePerMileChange}
           />
+        </div>
         </div>
 
         <ToggleDisplay show={this.state.showOdometer}>

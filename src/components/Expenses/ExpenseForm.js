@@ -149,6 +149,7 @@ export class ExpenseForm extends React.Component {
 
         
         <div className="input-group">
+        <div className="input-group__item">
           <select 
             disabled={this.state.selectDisabled} 
             value={this.state.selectedOption}   
@@ -157,6 +158,7 @@ export class ExpenseForm extends React.Component {
               <option value="travel">Travel</option>
               <option value="other">Other</option>          
             </select>
+          </div>
           <SingleDatePicker
           date={this.state.createdAt}
           onDateChange={this.onDateChange}
