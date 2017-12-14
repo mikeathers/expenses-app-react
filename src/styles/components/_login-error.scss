@@ -1,0 +1,19 @@
+.login-error {
+  background: fade-out(white, .15);
+  width: 30%;
+  border-radius: 3px;
+
+  &__title {
+    background-color: #E44130;
+    padding: 0 10px;
+    margin: 0;
+    font-weight: 100;
+    border-bottom: 1px solid fade-out(grey, .60);
+    color: white;
+  }
+
+  &__action {
+    padding: 0 10px;
+    font-weight: 800;
+  }
+}

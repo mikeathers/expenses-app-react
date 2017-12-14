@@ -3,6 +3,7 @@
   &__input {
     @extend .text-input;
     display: inline-block;
+    margin-left: $s-size;
   }
   &__button {
     @extend .button;

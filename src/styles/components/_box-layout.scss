@@ -1,22 +1,42 @@
 .box-layout {
-  align-items: center;
   background: url('/images/bg.jpg');
   background-size: cover;
-  display: flex;
   height: 100vh;
-  justify-content: center;
   width: 100vw;
+
+  &__box {
+    background: fade-out(white, .15);
+    border-radius: 3px;
+    padding: $l-size $m-size;
+    text-align: center;
+    width: 25rem;
+    margin: 0 auto;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    &--error {
+      background: white;
+      padding: $s-size;
+      h3 {
+        margin: 0;
+        padding: 0;
+      }
+      p {
+        padding: 0;
+        margin: 0;
+        margin-bottom: 10px;
+      }
+    }
+  }
+  
+  
+  &__title {
+    margin: 0 0 $m-size 0;
+    line-height: 1;
+  }
 }
 
-.box-layout__box {
-  background: fade-out(white, .15);
-  border-radius: 3px;
-  padding: $l-size $m-size;
-  text-align: center;
-  width: 25rem;
-}
 
-.box-layout__title {
-  margin: 0 0 $m-size 0;
-  line-height: 1;
-}
+
