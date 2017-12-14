@@ -109,7 +109,10 @@ class GoogleMapsForm extends React.Component {
   render() {
     return (
       <div>
-        <h2>Google Maps</h2>
+        <div className="googlemaps">
+         <h2 className="googlemaps__title">Google Maps</h2>
+         <div className="googlemaps__icon"></div>
+        </div>        
         <div className="input-group__item">
         <label>Origin:
           <input

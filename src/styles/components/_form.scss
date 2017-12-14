@@ -12,3 +12,23 @@
   margin-top: -15px;
   color: #BF0D2B;
 }
+
+
+.googlemaps {
+  &__title {
+    display: inline-block;
+  }
+  &__icon {
+    background: url('/images/google-maps.png');
+    height: 50px;
+    width: 50px;
+    background-size: cover;
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+    position: relative;
+    top: 10px;
+    left: 5px;
+  }
+}
+
